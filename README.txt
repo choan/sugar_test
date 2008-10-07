@@ -1,15 +1,16 @@
-Jshoulda
+jShoulda
 
 Description:
-    Jshoulda is a wrapper for JsUnitTest which allows the developer to write Shoulda-like tests.
+    jShoulda is a wrapper for JsUnitTest which allows the developer to write Shoulda-like tests.
 
 Example:
     context('A context', {
-      before: function() {
+      setup: function() {
+        // do your setup
         this.something = 1
       },
-      after: function() {
-        delete this.something;
+      teardown: function() {
+        // do your cleaning
       }
       },
       should('run its before function', function() {
