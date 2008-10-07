@@ -1,0 +1,25 @@
+Dir['tasks/**/*.rake'].sort.each { |rakefile| load rakefile }
+
+task :default do
+  puts 'This is an example rake task.'
+end
+
+task :site => [ :site_html, :site_js, :site_css ]
+
+task :site_html do
+  sh 'nanoc', 'co'
+end
+
+task :site_js do
+  mkdir_p 'output/js'
+  cp "../dist/jshoulda.js", 'output/js'
+  cp "../test/assets/jsunittest.js", 'output/js'
+  cp "js/editable.js", 'output/js'
+end
+
+task :site_css do
+  mkdir_p "output/css"
+  cp "../test/assets/unittest.css", "output/css"
+end
+
+

@@ -1,0 +1,10 @@
+# Built-in 
+extension: html
+filters_pre: [ erb ]
+filters_post: []
+skip_output: false
+filename: index
+custom_path: 
+layout: default
+
+# Custom

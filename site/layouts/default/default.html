@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title><%= @page.title %></title>
+	
+	<script src="/js/jsunittest.js" type="text/javascript"></script>
+	<script src="/js/editable.js" type="text/javascript"></script>
+	<script src="/js/jshoulda.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="/css/unittest.css" type="text/css" media="screen"/>
+	<style type="text/css" media="screen">
+	 body {
+     width: 40em;
+     margin: 0 auto;
+     background: #fff0ef;
+     color: #200;
+     font: 1em/1.5 lucida grande, sans-serif;
+   }
+
+   pre {
+     background: #222;
+     color: #6f6;
+     padding: 1em;
+   }
+   
+   p.download {
+     text-align: center;
+     margin: 2em 0;
+   }
+   
+   p.download a {
+     background: #eed0e0;
+     border: 2px solid #930;
+     padding: 1em;
+   }
+   
+   a {
+     color: #930;
+   }
+   
+   a:visited {
+     color: #333;
+   }
+   
+   
+	</style>
+</head>
+
+<body>
+  
+  <h1><%= @page.title %></h1>
+
+  <%= @page.content %>
+
+  <%= analytics %>
+
+</body>
+</html>
