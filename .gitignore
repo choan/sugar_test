@@ -2,3 +2,4 @@
 dist/jshoulda.js
 site/output
 .hg*
+site/tasks/upload.rake
