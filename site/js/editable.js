@@ -6,13 +6,21 @@ Test.Event.addEvent(window, 'load', function() {
   button.value = 'Run tests';
   button.onclick = function() {
     var ta = document.getElementById('editable-test');
-    var code = ta.tagName.toLowerCase() == 'pre' ? ta.getElementsByTagName('code')[0].innerHTML : ta.value;
+    var is_textarea = ta.tagName.toLowerCase() == 'textarea';
+    var code;
+    if (is_textarea) {
+      code = ta.value;
+    }
+    else {
+      code = stripTags(ta.getElementsByTagName('code')[0].innerHTML);
+    }
     var tr = eval(code);
     tr.runTests();
   };
   editable.parentNode.insertBefore(button, editable.nextSibling);
   editable.ondblclick = function() {
     var content = this.getElementsByTagName('code')[0].innerHTML;
+    content = stripTags(content);
     var ta = document.createElement('textarea');
     ta.id = 'editable-test';
     ta.style.width = editable.offsetWidth + 'px';
@@ -21,6 +29,10 @@ Test.Event.addEvent(window, 'load', function() {
     ta.value = content;
     this.parentNode.insertBefore(ta, this);
     this.parentNode.removeChild(this);
-  };  
+  };
+  
+  function stripTags(input) {
+    return input.replace(/<\/?[^>]*>/g, '')
+  }
 });
 
