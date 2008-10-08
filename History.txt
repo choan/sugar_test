@@ -1,3 +1,7 @@
+== 0.0.2 2008-10-07
+
+* Now the root context invocation returns a Test.Runner instance
+
 == 0.0.1 2008-10-05
 
 * 1 major enhancement:
