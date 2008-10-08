@@ -17,9 +17,15 @@ task :site_js do
   cp "js/editable.js", 'output/js'
 end
 
-task :site_css do
+task :site_css => [ 'output/css/unittest.css', 'output/css/blackboard.css' ]
+
+file 'output/css/unittest.css' => 'css/unittest.css' do
   mkdir_p "output/css"
-  cp "../test/assets/unittest.css", "output/css"
+  cp "css/unittest.css", "output/css"  
 end
 
+file 'output/css/blackboard.css' => 'css/blackboard.css' do
+  mkdir_p "output/css"
+  cp "css/blackboard.css", "output/css"  
+end
 
