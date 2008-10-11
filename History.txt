@@ -1,3 +1,7 @@
+== 0.0.3 2008-10-11
+
+* Proven to work with the original Prototype unittest.js
+
 == 0.0.2 2008-10-07
 
 * Now the root context invocation returns a Test.Runner instance
