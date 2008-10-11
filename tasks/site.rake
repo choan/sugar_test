@@ -9,8 +9,8 @@ task :upload => [ :site, :'site:upload' ]
 
 namespace :site do
 
-  desc "Compiles the nanoc site and adds the needed JS and CSS files"
-  task :default => [ :html, :js, :css ]
+  desc "Compiles the nanoc site and adds the needed JS, examples and CSS files"
+  task :default => [ :html, :js, :css, :example ]
 
   desc "Compiles the nanoc site"
   task :html do
@@ -30,7 +30,12 @@ namespace :site do
   end
 
   desc "Copies the CSS files needed for the site"
-  task :css => [ 'site/output/css/unittest.css', 'site/output/css/blackboard.css' ]
+  task :css => [ 'site/output/css/unittest.css', 'site/output/css/blackboard.css',  'site/output/css/jshoulda_site.css' ]
+
+  desc "Copies the example files for the site"
+  task :example do
+    cp_r 'site/example', 'site/output'
+  end
 
   desc "Uploads the site"
   task :upload => :default do
@@ -52,6 +57,11 @@ namespace :site do
   file 'site/output/css/blackboard.css' => 'site/css/blackboard.css' do
     mkdir_p "site/output/css"
     cp "site/css/blackboard.css", "site/output/css"  
+  end
+
+  file 'site/output/css/jshoulda_site.css' => 'site/css/jshoulda_site.css' do
+    mkdir_p "site/output/css"
+    cp "site/css/jshoulda_site.css", "site/output/css"  
   end
 
 end

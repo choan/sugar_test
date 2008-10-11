@@ -1,0 +1,136 @@
+<p>jShoulda, just as the <a href="http://www.thoughtbot.com/projects/shoulda" title="thoughtbot: Shoulda testing plugin">Shoulda</a> testing plugin it's inspired on, <q>makes it easy to write elegant, understandable, and maintainable tests.</q></p>
+
+
+<h2>A minimal test document</h2>
+
+<p>You need the following files to use jShoulda:</p>
+
+<ul>
+  <li><a href="http://jsunittest.com/dist/jsunittest.js">jsunittest.js</a>, from the <a href="http://jsunittest.com/">JsUnitTest</a> project. If you're using <a href="http://www.prototypejs.org/" title="Prototype JavaScript framework: Easy Ajax and DOM manipulation for dynamic web applications">prototype</a>, you may use <a href="http://github.com/sstephenson/prototype/tree/master%2Ftest%2Flib%2Fassets%2Funittest.js?raw=true">unittest.js</a> instead.</li>
+  <li><a href="/js/jshoulda.js">jshoulda.js</a>, from the <a href="/">jShoulda</a> project.</li>
+</ul>
+
+<p>Create an HTML document which references both scripts. Include a <code>div</code> element with <code>id</code> <var>testlog</var>, then your testing code. <a href="/example/minimal.html">Run it</a>, enjoy.
+
+<%= example('minimal.html', false) %>
+
+<h2>jShoulda syntax</h2>
+
+<p>jShoulda exports just two methods to the global space: <code>context</code> and <code>should</code>.</p>
+
+<p>To create a test runner (which will be automatically executed on <code>window.onload</code>), invoke <code>context</code>, then execute the result:</p>
+
+<%
+code =<<-EOD
+context('The name of the context', {})();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>The first argument to <code>context</code> is the base name for actual tests derived from it. The second is an object which may include <code>setup</code> and <code>teardown</code> methods:</p>
+
+<%
+code =<<-EOD
+context('The name of the context', {
+  setup: function() {
+    // `this` is a Test.Unit instance
+    this.foo = 1;
+  },
+  teardown: function() {
+    // you don't need to clean up `this`'s properties,
+    // the Test.Unit is brand new for every actual test
+  }
+  }
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>Include <code>should</code> calls after the second argument to create actual tests:</p>
+
+<%
+code =<<-EOD
+context('A context', {
+  setup: function() {
+    this.foo = 1;
+  }
+  },
+  should('run its setup function', function() {
+    this.assertEqual(1, this.foo);
+  })
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>Every call to <code>should</code> must pass a name and a callback as arguments. Assertions are run inside the callback, where <code>this</code> points to a <code>Test.Unit</code> instance (the same you can manipulate on <code>setup</code>/<code>teardown</code>).</p>
+
+<p>To create new contexts (on which every <code>setup</code>/<code>teardown</code> function from parent contexts is run), pass a call to <code>context</code> as an argument:</p>
+
+<%
+code =<<-EOD
+context('A context', {
+  setup: function() {
+    this.foo = 1;
+  }
+  },
+  should('run its setup function', function() {
+    this.assertEqual(1, this.foo);
+  }),
+  context('which is a "nested" context', {
+    setup: function() {
+      this.foo +=1;
+    }
+    },
+    should('run both setup functions', function() {
+      this.assertEqual(2, this.foo);
+    })
+  )
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>You can nest as much contexts as you like.</p>
+
+<h2>Assertions</h2>
+
+<p>Assertions come from the JsUnitTest library. Almost every assertion accepts three arguments: the expected value, the actual one and an optional message. An intentionally incomplete list of possible assertions follows:</p>
+
+<ul>
+  <li>assert</li>
+  <li>assertEqual</li>
+  <li>assertNotEqual</li>
+  <li>assertEnumEqual</li>
+  <li>assertEnumNotEqual</li>
+  <li>assertHashEqual</li>
+  <li>assertHashNotEqual</li>
+  <li>assertIdentical</li>
+  <li>assertNotIdentical</li>
+  <li>assertNull</li>
+  <li>assertNotNull</li>
+  <li>assertUndefined</li>
+  <li>assertNotUndefined</li>
+</ul>
+
+
+<h2>Customizing the Test Runner</h2>
+
+<p>The progress and results of your tests are shown, by default, on a <code>div</code> element whose <code>id</code> equals <var>testlog</var>. If you want to modify the behaviour of the runner, pass a configuration object when invocating the root context call result:
+  
+<%
+code =<<-EOD
+context('A context', {},
+  should('run a test', function() {
+    this.assert('Yay!');
+  }),
+)({ testLog: 'my_test_log_div_id' });
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<h2>Questions?</h2>
+
+<p>Feel free to ask on the <a href="http://groups.google.com/group/jshoulda">jShoulda Google Group</a>.</p>
+
+<p><a href="/">jShoulda home page</a>.</p>

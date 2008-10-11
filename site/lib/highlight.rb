@@ -1,5 +1,6 @@
+require 'uv'
+
 def highlight(code, lang, attrs = {}, wrap = true)
-  require 'uv'
   theme = 'blackboard'
   parsed = Uv.parse(code, 'xhtml', lang, false, theme)
   parsed = parsed.sub(/^<pre[^>]*>/, '').sub(/\n*<\/pre>$/, '')
