@@ -25,6 +25,9 @@ APP_PKG_DIR  = File.join(APP_ROOT, 'pkg')
 
 
 unless ENV['rakefile_just_config']
+  
+  
+CLEAN.include [ "#{APP_DIST_DIR}/#{APP_NAME}.js", "#{APP_DIST_DIR}/#{APP_NAME}-#{APP_VERSION}.js" ]
 
 task :default => [:dist, :package, :clean_package_source]
 
@@ -42,11 +45,6 @@ task :dist do
   end
   Dir.chdir(APP_DIST_DIR) do
     FileUtils.copy_file APP_FILE_NAME, "#{APP_NAME}-#{APP_VERSION}.js"
-  end
-  if File.directory?("website")
-    FileUtils.mkdir_p "website/dist"
-    FileUtils.copy_file "dist/#{APP_FILE_NAME}",       "website/dist/#{APP_FILE_NAME}"
-    FileUtils.copy_file "dist/#{APP_FILE_NAME}",       "website/dist/#{APP_NAME}-#{APP_VERSION}.js"
   end
 end
 
