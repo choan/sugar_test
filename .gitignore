@@ -1,5 +1,7 @@
 .DS_Store
 dist/jshoulda.js
+dist/jshoulda*x.js
+config/site.yaml
 site/output
 .hg*
 site/tasks/upload.rake
