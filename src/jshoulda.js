@@ -38,7 +38,7 @@ var context, should;
       var prefix = outerName;
       var is_root = !!(outerName == undefined || typeof outerName == 'object');
       if (is_root) {
-        tr = new JsUnitTest.Unit.Runner({}, outerName || {});
+        tr = new Test.Unit.Runner({}, outerName || {});
         prefix = '';
       }
       beforeQueue = before ? before.push(obj.before) && before : [obj.before];
