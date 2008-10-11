@@ -1,0 +1,34 @@
+# jShoulda
+
+jShoulda is a wrapper for [JsUnitTest](http://github.com/drnic/jsunittest/) which allows the developer to write Shoulda-like tests.
+
+Please visit <http://jshoulda.scriptia.net> for more information.
+
+## Example
+
+    context('A context', {
+      setup: function() {
+        // do your setup
+        this.something = 1
+      },
+      teardown: function() {
+        // do your cleaning
+      }
+      },
+      should('run its setup function', function() {
+        this.assertEqual(1, this.something);
+      }),
+      context('which is an inner context', function() {
+        setup: function() {
+          this.something += 1;
+        }
+        },
+        should('run both setup functions', function() {
+          this.assertEqual(2, this.something);
+        })
+      )
+    )();
+
+## Author, license, source code
+
+jShoulda has been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/jshoulda/">Git repository at github</a>.
