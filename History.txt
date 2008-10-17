@@ -1,3 +1,5 @@
+== 1.0
+
 == 0.0.3 2008-10-11
 
 * Proven to work with the original Prototype unittest.js
