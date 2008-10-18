@@ -12,7 +12,7 @@ require 'rake/packagetask'
 
 $:.unshift File.dirname(__FILE__) + "/lib"
 
-APP_VERSION  = '0.0.3'
+APP_VERSION  = '1.0'
 APP_NAME     = 'jshoulda'
 RUBYFORGE_PROJECT = APP_NAME
 APP_TEMPLATE = "#{APP_NAME}.js.erb"

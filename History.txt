@@ -1,3 +1,7 @@
+== 1.0 2008-10-18
+
+* Version set to 1.0, no code changes
+
 == 0.0.3 2008-10-11
 
 * Proven to work with the original Prototype unittest.js
