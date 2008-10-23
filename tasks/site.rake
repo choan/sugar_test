@@ -10,7 +10,9 @@ task :upload => [ :site, :'site:upload' ]
 namespace :site do
 
   desc "Compiles the nanoc site and adds the needed JS, examples and CSS files"
-  task :default => [ :html, :js, :css, :example ]
+  task :default => [ :html, :js, :css, :example, :downloads ]
+  
+  task :downloads => :'bundle:zip'
 
   desc "Compiles the nanoc site"
   task :html do
