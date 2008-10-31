@@ -55,9 +55,11 @@ var context, should;
     return function(prefix, before, after) {
       var beforeBatch = makeBatch(before);
       var afterBatch = makeBatch(after);
-      return new Test.Unit.Testcase([prefix, name].join(' should '), fn, beforeBatch, afterBatch);
+      return new Test.Unit.Testcase([prefix, name].join(' ' + should.connector + ' '), fn, beforeBatch, afterBatch);
     };
   };
+  
+  should.connector = 'should';
   
   
 })();

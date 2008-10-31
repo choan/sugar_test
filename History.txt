@@ -1,3 +1,7 @@
+== 1.0.1 2008-10-31
+
+* Configurable connector. Overwrite `should.connector` if you want to use a localized connector.
+
 == 1.0 2008-10-18
 
 * Version set to 1.0, no code changes
