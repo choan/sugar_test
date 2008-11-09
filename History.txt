@@ -13,6 +13,7 @@
         this.assert(true);
       })
     )();
+
 * The configuration object (setup/teardown) is now optional
 * before/after are documented alias to setup/teardown since this very moment.
 

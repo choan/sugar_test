@@ -27,7 +27,7 @@ EOD
 %>
 <%= highlight(code, 'javascript') %>
 
-<p>The first argument to <code>context</code> is the base name for actual tests derived from it. The second is an object which may include <code>setup</code> and <code>teardown</code> methods:</p>
+<p>The first argument to <code>context</code> is the base name for actual tests derived from it. The second is an (optional) object which may include <code>setup</code> and <code>teardown</code> methods:</p>
 
 <%
 code =<<-EOD
@@ -46,7 +46,9 @@ EOD
 %>
 <%= highlight(code, 'javascript') %>
 
-<p>Include <code>should</code> calls after the second argument to create actual tests:</p>
+<p>Hint: You can use <code>before</code>/<code>after</code> instead of <code>setup</code>/<code>teardown</code> if it makes you feel better.</p>
+
+<p>Include <code>should</code> calls after the (optional) configuration object to create actual tests:</p>
 
 <%
 code =<<-EOD
@@ -55,6 +57,13 @@ context('A context', {
     this.foo = 1;
   }
   },
+  should('run its setup function', function() {
+    this.assertEqual(1, this.foo);
+  })
+)();
+
+// if you don't need setup/teardown methods
+context('A context',
   should('run its setup function', function() {
     this.assertEqual(1, this.foo);
   })
@@ -120,7 +129,7 @@ EOD
   
 <%
 code =<<-EOD
-context('A context', {},
+context('A context',
   should('run a test', function() {
     this.assert('Yay!');
   }),
@@ -128,6 +137,49 @@ context('A context', {},
 EOD
 %>
 <%= highlight(code, 'javascript') %>
+
+<h2 id="aliasing">Aliasing (new in version 1.1)</h2>
+
+<p>Since jShoulda 1.1, you can easily create alias to <code>context</code> and <code>should</code> methods. In fact, they are alias themselves.</p>
+
+<p>Say you wanted to use <code>some</code>/<code>must</code> instead of (actually, in addition) to <code>context</code>/<code>should</code>. You could just do:</p>
+
+<%
+code = <<-EOD
+jShoulda
+  .setShouldAlias('must')
+  .setContextAlias('some');
+
+some('context',
+  must('run a test', function() {
+    this.assert('Yay!');
+  })
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>Both <code>setBlahAlias</code> create methods which works just as <code>context</code> and <code>should</code> do. But instead of getting a “should” connector, you get a connector named as the method, that is, the full name of the test we've created in the previous example, would be “A context must run a test”.</p>
+
+<p>Pass a second argument to <code>setShouldAlias</code> if you want a different connector (or no connector at all):</p>
+
+<% 
+code = <<-EOD
+jShoulda
+  .setShouldAlias('it', '')
+  .setContextAlias('describe');
+
+describe('A context',
+  it('runs a test', function() {
+    this.assert('Yay!');
+  })
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+<p>Of course, you can mix as much aliases as you like.</p>
+
 
 <h2>Questions?</h2>
 
