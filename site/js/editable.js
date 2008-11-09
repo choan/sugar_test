@@ -14,8 +14,12 @@ Test.Event.addEvent(window, 'load', function() {
     else {
       code = stripTags(ta.getElementsByTagName('code')[0].innerHTML);
     }
-    var tr = eval(code);
-    tr.runTests();
+    try {
+      var tr = eval(code);      
+      tr.runTests();
+    } catch(ex) {
+      alert(ex.name + ': ' + ex.message);
+    }
   };
   editable.parentNode.insertBefore(button, editable.nextSibling);
   editable.ondblclick = function() {
