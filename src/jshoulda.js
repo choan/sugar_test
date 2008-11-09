@@ -25,10 +25,16 @@ var jShoulda = function() {
     };
   }
   
-  function context(name, obj) {
+  function context(name) {
+    var queue = Array.prototype.slice.call(arguments, 1);
+    var obj = {};
+    // shift arguments if the second one is a
+    // configuration object
+    if (typeof arguments[1] === 'object') {
+      obj = queue.shift();
+    }
     obj.before = obj.setup || obj.before || dummy;
     obj.after = obj.teardown || obj.after || dummy;
-    var queue = Array.prototype.slice.call(arguments, 2);
     var beforeQueue;
     var afterQueue;
     return function(outerName, before, after) {

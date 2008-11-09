@@ -1,8 +1,9 @@
 == 1.1 2008-11-09
 
+* jShoulda is now a global symbol
 * Refactored code to allow simple aliasing
+* Aliasing methods jShoulda.setShouldAlias and jShoulda.setContextAlias
 * Configurable connector deprecated (and removed) in favor of jShoulda.setShouldAlias method.
-* new global simbol: jShoulda
 * global methods `should` and `context` are now created through aliasing
 * Try this, babe
 
@@ -12,6 +13,8 @@
         this.assert(true);
       })
     )();
+* The configuration object (setup/teardown) is now optional
+* before/after are documented alias to setup/teardown since this very moment.
 
 == 1.0.1 2008-10-31
 
