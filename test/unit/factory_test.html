@@ -30,26 +30,30 @@
 <script type="text/javascript">
 // <![CDATA[
 
+function getPreviousTestWording() {
+  var rows = document.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+  return rows[rows.length - 2].getElementsByTagName('td')[0].innerHTML.replace(/^\s+|\s+$/, '').replace(/\s+/, ' ');
+}
+
 jShoulda
-  .setShouldAlias('must', 'cabrito')
+  .setShouldAlias('shoulda', 'ya shoulda yay')
   .setContextAlias('describe')
-  .setShouldAlias('it', '');
+  .setShouldAlias('it', '')
+  .setShouldAlias('must');
 
 describe("jShoulda", {},
   should("expose a setShouldAlias", function() {
     this.assert(typeof jShoulda.setShouldAlias == 'function');
   }),
-  should("expose a getShouldAlias", function() {
-    this.assert(typeof jShoulda.getShouldAlias == 'function');
+  shoulda("accept weird connectors", function() {
+    this.assert(true);
   }),
-  context("with extra 'shouldy' methods", {
-    setup: function() {
-    }
-    },
-    it("run tests", function() {
-      this.assert(true);
-    })
-  )
+  must('use weird wording in the previous test', function() {
+    this.assertEqual('jShoulda ya shoulda yay accept weird connectors', getPreviousTestWording());
+  }),
+  it('really can say what you want', function() {
+    this.assertEqual('jShoulda must use weird wording in the previous test', getPreviousTestWording());
+  })
 )({testLog: "testlog"});
   // For each root context instance, specify the element id where results will be
   // published; e.g. <div id="testlog"/> above.

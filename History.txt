@@ -1,3 +1,18 @@
+== 1.1 2008-11-09
+
+* Refactored code to allow simple aliasing
+* Configurable connector deprecated (and removed) in favor of jShoulda.setShouldAlias method.
+* new global simbol: jShoulda
+* global methods `should` and `context` are now created through aliasing
+* Try this, babe
+
+    jShoulda.setContextAlias('describe').setShouldAlias('it', '');
+    describe("A context", {},
+      it("runs tests", function() {
+        this.assert(true);
+      })
+    )();
+
 == 1.0.1 2008-10-31
 
 * Configurable connector. Overwrite `should.connector` if you want to use a localized connector.

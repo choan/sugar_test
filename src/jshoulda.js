@@ -1,5 +1,4 @@
-var context, should;
-(function() {
+var jShoulda = function() {
   // the test runner
   var tr;
 
@@ -26,7 +25,7 @@ var context, should;
     };
   }
   
-  context = function(name, obj) {
+  function context(name, obj) {
     obj.before = obj.setup || obj.before || dummy;
     obj.after = obj.teardown || obj.after || dummy;
     var queue = Array.prototype.slice.call(arguments, 2);
@@ -51,20 +50,46 @@ var context, should;
     };
   };
 
-  should = function(name, fn) {
-    return function(prefix, before, after) {
-      var beforeBatch = makeBatch(before);
-      var afterBatch = makeBatch(after);
-      return new Test.Unit.Testcase([prefix, name].join(' ' + should.connector + ' '), fn, beforeBatch, afterBatch);
+  
+  function getShouldAlias(connector) {
+    return function (name, fn) {
+      return function(prefix, before, after) {
+        var beforeBatch = makeBatch(before);
+        var afterBatch = makeBatch(after);
+        return new Test.Unit.Testcase([prefix, name].join(' ' + connector + ' '), fn, beforeBatch, afterBatch);
+      };    
     };
-  };
+  }
   
-  should.connector = 'should';
+  function setShouldAlias(name, host) {
+    var connector = name;
+    if (typeof host == 'string') {
+      connector = host;
+      host = arguments[2];
+    }
+    host = host || window;
+    host[name] = getShouldAlias(connector);
+    return jShoulda;
+  }
   
+  function setContextAlias(name, host) {
+    host = host || window;
+    host[name] = getContextAlias();
+    return jShoulda;
+  }
   
-})();
+  function getContextAlias() {
+    return context;
+  }
 
 
+  return {
+    setShouldAlias : setShouldAlias,
+    setContextAlias : setContextAlias,
+  }
 
+}();
 
-
+jShoulda
+  .setShouldAlias('should')
+  .setContextAlias('context');  
