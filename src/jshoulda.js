@@ -5,10 +5,10 @@ var jShoulda = function() {
   function dummy() {
   };
   
-  function runQueue(queue, name, before, after) {
+  function runQueue(queue, name, before, after, ext) {
     var i, tests;
     for (i = 0; i < queue.length; i += 1) {
-      tests = queue[i](name, before, after);
+      tests = queue[i](name, before, after, ext);
       if (tests)
         tr.tests.push(tests);
     }
@@ -37,9 +37,12 @@ var jShoulda = function() {
     obj.after = obj.teardown || obj.after || dummy;
     var beforeQueue;
     var afterQueue;
-    return function(outerName, before, after) {
+    var extensions = merge({}, obj || {});
+    
+    return function(outerName, before, after, ext) {
       // the root context gets no outerName or a configuration object
       // as its first argument
+      // debugger;
       var prefix = outerName;
       var is_root = !!(outerName == undefined || typeof outerName == 'object');
       if (is_root) {
@@ -48,7 +51,7 @@ var jShoulda = function() {
       }
       beforeQueue = before ? before.push(obj.before) && before : [obj.before];
       afterQueue = after ? after.push(obj.after) && after : [obj.after];
-      runQueue(queue, [prefix, name].join(' '), beforeQueue, afterQueue);
+      runQueue(queue, [prefix, name].join(' '), beforeQueue, afterQueue, merge(extensions, ext));
       if (is_root) {
         return tr;
       }
@@ -56,13 +59,27 @@ var jShoulda = function() {
     };
   };
 
+  function merge(sub, sup) {
+    // debugger;
+    for (var i in sup) {
+      if (i.search(/^(before|after|setup|teardown)$/) != -1) continue;
+      if (sup.hasOwnProperty(i)) {
+        sub[i] = sup[i];
+      }
+    }
+    return sub;
+  }
+
   
   function getShouldAlias(connector) {
     return function (name, fn) {
-      return function(prefix, before, after) {
+      return function(prefix, before, after, extensions) {
         var beforeBatch = makeBatch(before);
         var afterBatch = makeBatch(after);
-        return new Test.Unit.Testcase([prefix, name].join(' ' + connector + ' '), fn, beforeBatch, afterBatch);
+        var unit = new Test.Unit.Testcase([prefix, name].join(' ' + connector + ' '), fn, beforeBatch, afterBatch);
+        // debugger;
+        merge(unit, extensions);
+        return unit;
       };    
     };
   }
