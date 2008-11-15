@@ -60,6 +60,14 @@ context("A 'should' execution", {
       this.assertEqual(true, this.extra());
       this.assertLocalYipiyay('yipiyay');
     })
+  ),
+  context("in a later inner context (after one that modified the Test.Unit)",
+    should("not have access to the extra properties defined by its sibling", function() {
+      this.assertUndefined(this.extraInner);
+    }),
+    should("have access to the extra properties defined by its parent", function() {
+      this.assertEqual(true, this.extra());
+    })
   )
 )();
 
