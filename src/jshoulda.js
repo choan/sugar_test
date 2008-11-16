@@ -25,12 +25,17 @@ var jShoulda = function() {
     };
   }
   
-  function context(name) {
-    var queue = Array.prototype.slice.call(arguments, 1);
+  function context(name, config, args) {
+    var queue = Array.prototype.slice.call(arguments, 0);
+    var cName = '';
     var obj = {};
+    // shift arguments if the first one is a string
+    if (typeof queue[0] == 'string') {
+      cName = queue.shift();
+    }
     // shift arguments if the second one is a
     // configuration object
-    if (typeof arguments[1] === 'object') {
+    if (typeof queue[0] === 'object') {
       obj = queue.shift();
     }
     obj.before = obj.setup || obj.before || dummy;
@@ -48,7 +53,7 @@ var jShoulda = function() {
       }
       beforeQueue = before ? before.push(obj.before) && before : [obj.before];
       afterQueue = after ? after.push(obj.after) && after : [obj.after];
-      runQueue(queue, [prefix, name].join(' '), beforeQueue, afterQueue);
+      runQueue(queue, [prefix, cName].join(' '), beforeQueue, afterQueue);
       if (is_root) {
         return tr;
       }
