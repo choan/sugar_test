@@ -1,3 +1,22 @@
+
+* The context aliaser is now a real generator and accepts a prefix as a second argument. So, for this testing code
+
+    jShoulda
+      .setContextAlias('un', 'Un')
+      .setContextAlias('para', 'para')
+      .setShouldAlias('deberia', 'debería');
+
+    un("programador",
+      para("ser feliz",
+        deberia("poder comer melocotones de Calanda todo el año", function() {
+        })
+      )
+    )();
+  
+  the outputted name for our test will be "Un programador para ser feliz debería poder comer melocotones de Calanda todo el año".
+
+* Contexts are now allowed to be anonymous.
+
 == 1.1 2008-11-09
 
 * jShoulda is now a global symbol
