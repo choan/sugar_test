@@ -16,7 +16,7 @@
 
 <h2>jShoulda syntax</h2>
 
-<p>jShoulda exports just two methods to the global space: <code>context</code> and <code>should</code>.</p>
+<p>jShoulda exports two methods to the global space: <code>context</code> and <code>should</code>.</p>
 
 <p>To create a test runner (which will be automatically executed on <code>window.onload</code>), invoke <code>context</code>, then execute the result:</p>
 
@@ -179,6 +179,25 @@ EOD
 <%= highlight(code, 'javascript') %>
 
 <p>Of course, you can mix as much aliases as you like.</p>
+
+<h2 id="extra-properties">Extending the test units (new in 1.1.x)</h2>
+
+<p>Properties in the configuration object (other than setup/teardown/before/after) are copied to each <code>Test.Unit</code> inside the context—that is, are accesible through <code>this</code> inside the <code>should</code> callbacks.</p>
+
+<% 
+code = <<-EOD
+context("A 'should' execution", {
+  assertLocalYipiyay : function(actual, msg) {
+    this.assertEqual('yipiyay', actual, msg);
+  }
+  },
+  should("get access to extra properties defined on the configuration object", function() {
+    this.assertLocalYipiyay('yipiyay');
+  })
+)();
+EOD
+%>
+<%= highlight(code, 'javascript') %>
 
 
 <h2>Questions?</h2>

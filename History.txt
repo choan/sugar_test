@@ -1,3 +1,16 @@
+== 1.1.x Unknown
+
+* The configuration object can contain properties (other than setup/teardown/before/after) which are copied to each Test.Unit in the context—that is, are accesible through `this` inside your _should_ callbacks. Best understood through example:
+
+    context("A 'should' execution", {
+      assertLocalYipiyay : function(input, msg) {
+        this.assertEqual('yipiyay', input, msg);
+      }
+      },
+      should("get access to extra properties defined on the configuration parameter", function() {
+        this.assertLocalYipiyay('yipiyay');
+      })
+    )();
 
 * The context aliaser is now a real generator and accepts a prefix as a second argument. So, for this testing code
 
@@ -12,7 +25,7 @@
         })
       )
     )();
-  
+
   the outputted name for our test will be "Un programador para ser feliz debería poder comer melocotones de Calanda todo el año".
 
 * Contexts are now allowed to be anonymous.
