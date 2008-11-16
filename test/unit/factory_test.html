@@ -22,6 +22,7 @@
 
   <!-- Log output (one per Runner, via {testLog: "testlog"} option)-->
   <div id="testlog"></div>
+  <div id="testlog2"></div>
   
   <!-- Put sample/test html here -->
   <div id="sample"></div>
@@ -30,8 +31,9 @@
 <script type="text/javascript">
 // <![CDATA[
 
-function getPreviousTestWording() {
-  var rows = document.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+function getPreviousTestWording(tableIndex) {
+  tableIndex = tableIndex || 0;
+  var rows = document.getElementsByTagName('table')[tableIndex].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
   return rows[rows.length - 2].getElementsByTagName('td')[0].innerHTML.replace(/^\s+|\s+$/, '').replace(/\s+/, ' ');
 }
 
@@ -55,11 +57,25 @@ describe("jShoulda", {},
     this.assertEqual('jShoulda must use weird wording in the previous test', getPreviousTestWording());
   })
 )({testLog: "testlog"});
-  // For each root context instance, specify the element id where results will be
-  // published; e.g. <div id="testlog"/> above.
-  // That is, you can have multiple root contexts on this page, just
-  // create more <div id="testlog2"></div> etc, and pass the element id to the hash above:
-  // e.g. {testLog: "testlog2"}
+
+
+jShoulda
+  .setContextAlias('un', 'Un')
+  .setContextAlias('para', 'para')
+  .setShouldAlias('deberia', 'debería');
+
+un("Choan",
+  para("ser feliz",
+    deberia("poder comer melocotones de Calanda todo el año", function() {
+      this.assertEqual('yum', 'yum');
+    })
+  ),
+  deberia("sentirse feliz de su trabajo en jShoulda", function() {
+    this.assertEqual('Un Choan para ser feliz debería poder comer melocotones de Calanda todo el año', getPreviousTestWording(1));
+  })
+)({testLog: 'testlog2'});
+
+
 // ]]>
 </script>
 </body>
