@@ -22,7 +22,6 @@
 
   <!-- Log output (one per Runner, via {testLog: "testlog"} option)-->
   <div id="testlog"></div>
-  <div id="testlog2"></div>
   
   <!-- Put sample/test html here -->
   <div id="sample"></div>
@@ -62,7 +61,8 @@ describe("jShoulda", {},
 jShoulda
   .setContextAlias('un', 'Un')
   .setContextAlias('para', 'para')
-  .setShouldAlias('deberia', 'debería');
+  .setShouldAlias('deberia', 'debería')
+  .unifyRunners();
 
 un("Choan",
   para("ser feliz",
@@ -71,9 +71,9 @@ un("Choan",
     })
   ),
   deberia("sentirse feliz de su trabajo en jShoulda", function() {
-    this.assertEqual('Un Choan para ser feliz debería poder comer melocotones de Calanda todo el año', getPreviousTestWording(1));
+    this.assertEqual('Un Choan para ser feliz debería poder comer melocotones de Calanda todo el año', getPreviousTestWording());
   })
-)({testLog: 'testlog2'});
+)();
 
 
 // ]]>

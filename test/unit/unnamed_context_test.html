@@ -24,7 +24,6 @@
 
   <!-- Log output (one per Runner, via {testLog: "testlog"} option)-->
   <div id="testlog"></div>
-  <div id="testlog2"></div>
   
   <!-- Put sample/test html here -->
   <div id="sample"></div>
@@ -32,6 +31,8 @@
 
 <script type="text/javascript">
 // <![CDATA[
+
+jShoulda.unifyRunners();
 
 // This test uses a base unnamed context
 context({
@@ -58,7 +59,7 @@ context(
       this.assert(true);
     })
   )
-)({testLog: 'testlog2'});
+)();
 
 // ]]>
 </script>

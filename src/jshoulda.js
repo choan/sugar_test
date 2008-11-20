@@ -1,6 +1,6 @@
 var jShoulda = function() {
   // the test runner
-  var tr;
+  var tr, unique = false;
 
   function dummy() {
   };
@@ -48,11 +48,10 @@ var jShoulda = function() {
       return function(outerName, before, after, ext) {
         // the root context gets no outerName or a configuration object
         // as its first argument
-        // debugger;
         var prefix = outerName;
         var is_root = !!(outerName == undefined || typeof outerName == 'object');
         if (is_root) {
-          tr = new Test.Unit.Runner({}, outerName || {});
+          tr = (tr && unique) ? tr : new Test.Unit.Runner({}, outerName || {});
           prefix = '';
         }
         // shift arguments if the second one is a
@@ -69,7 +68,6 @@ var jShoulda = function() {
   };
 
   function merge(sub, sup) {
-    // debugger;
     for (var i in sup) {
       if (i.search(/^(before|after|setup|teardown)$/) != -1) continue;
       if (sup.hasOwnProperty(i)) {
@@ -86,7 +84,6 @@ var jShoulda = function() {
         var beforeBatch = makeBatch(before);
         var afterBatch = makeBatch(after);
         var unit = new Test.Unit.Testcase([prefix, name].join(' ' + connector + ' '), fn, beforeBatch, afterBatch);
-        // debugger;
         merge(unit, extensions);
         return unit;
       };    
@@ -118,7 +115,14 @@ var jShoulda = function() {
 
   return {
     setShouldAlias : setShouldAlias,
-    setContextAlias : setContextAlias
+    setContextAlias : setContextAlias,
+    unifyRunners : function(options) {
+      if (options) {
+        tr = options instanceof Test.Unit.Runner ? options : new Test.Unit.Runner({}, options || {});
+      }
+      unique = true;
+      return jShoulda;
+    }
   };
 
 }();

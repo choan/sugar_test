@@ -33,14 +33,25 @@
 
 var runner1, runner2;
 
+
+var runner0 = new Test.Unit.Runner({
+  
+  testDummy : function() {
+    this.assert(true);
+  }
+  
+});
+
+jShoulda.unifyRunners(runner0);
+
 runner1 = context("An initial root context", {},
   should("create a runner", function() {
     this.assert(runner1 instanceof Test.Unit.Runner);
+    this.assertEqual(runner0, runner1);
   })
 )();
 
 
-jShoulda.unifyRunners();
 
 runner2 = context("A second root context, when using unifyRunners", {},
   should("reuse the runner", function() {
@@ -48,6 +59,8 @@ runner2 = context("A second root context, when using unifyRunners", {},
     this.assertEqual(runner1, runner2);
   })
 )();
+
+
 
 
 // ]]>

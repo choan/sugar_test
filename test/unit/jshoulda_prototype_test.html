@@ -37,6 +37,8 @@ var runner = context('A test', {},
   })
 )();
 
+jShoulda.unifyRunners();
+
 context('A context', {
   setup: function() {
     this.runBefore = 1;
@@ -78,7 +80,7 @@ context('A context', {
       })
     )
   )
-)({testLog: 'testlog2'});
+)();
 // ]]>
 </script>
 </body>
