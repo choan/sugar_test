@@ -1,4 +1,4 @@
-<p>jShoulda, just as the <a href="http://www.thoughtbot.com/projects/shoulda" title="thoughtbot: Shoulda testing plugin">Shoulda</a> testing plugin it's inspired on, <q>makes it easy to write elegant, understandable, and maintainable tests.</q></p>
+<p>jShoulda, just as the <a href="http://www.thoughtbot.com/projects/shoulda" title="thoughtbot: Shoulda testing plugin">Shoulda</a> testing plugin it's inspired on, <q>makes it easy to write elegant, understandable, and maintainable tests.</q> JavaScript.</p>
 
 
 <h2>A minimal test document</h2>
@@ -16,7 +16,7 @@
 
 <h2>jShoulda syntax</h2>
 
-<p>jShoulda exports two methods to the global space: <code>context</code> and <code>should</code>.</p>
+<p>By default, jShoulda exports two methods to the global space: <code>context</code> and <code>should</code>.</p>
 
 <p>To create a test runner (which will be automatically executed on <code>window.onload</code>), invoke <code>context</code>, then execute the result:</p>
 
@@ -33,12 +33,12 @@ EOD
 code =<<-EOD
 context('The name of the context', {
   setup: function() {
-    // `this` is a Test.Unit instance
+    // `this` is a Test.Unit.Testcase instance
     this.foo = 1;
   },
   teardown: function() {
     // you don't need to clean up `this`'s properties,
-    // the Test.Unit is brand new for every actual test
+    // the Test.Unit.TestCase is brand new for every actual test
   }
   }
 )();
@@ -138,9 +138,9 @@ EOD
 %>
 <%= highlight(code, 'javascript') %>
 
-<h2 id="aliasing">Aliasing (new in version 1.1)</h2>
+<h2 id="aliasing">Aliasing</h2>
 
-<p>Since jShoulda 1.1, you can easily create alias to <code>context</code> and <code>should</code> methods. In fact, they are alias themselves.</p>
+<p>You can easily create alias to <code>context</code> and <code>should</code> methods. In fact, they are alias themselves.</p>
 
 <p>Say you wanted to use <code>some</code>/<code>must</code> instead of (actually, in addition) to <code>context</code>/<code>should</code>. You could just do:</p>
 
@@ -161,7 +161,7 @@ EOD
 
 <p>Both <code>setBlahAlias</code> create methods which works just as <code>context</code> and <code>should</code> do. But instead of getting a “should” connector, you get a connector named as the method, that is, the full name of the test we've created in the previous example, would be “A context must run a test”.</p>
 
-<p>Pass a second argument to <code>setShouldAlias</code> if you want a different connector (or no connector at all):</p>
+<p>Pass a second argument to <code>setShouldAlias</code> if you want a different connector (or no connector at all). Pass a second argument to <code>setContextAlias</code> if you want a prefix for your context.</p>
 
 <% 
 code = <<-EOD
@@ -178,11 +178,32 @@ EOD
 %>
 <%= highlight(code, 'javascript') %>
 
+
+<p>or</p>
+
+<%=
+highlight(<<-EOD, 'javascript')
+jShoulda
+  .setContextAlias('un', 'Un')
+  .setContextAlias('para', 'para')
+  .setShouldAlias('deberia', 'debería');
+
+un("programador",
+  para("ser feliz",
+    deberia("poder comer melocotones de Calanda todo el año", function() {
+    })
+  )
+)();
+EOD
+%>
+
+<p>In this last case, the outputted name for our test will be “Un programador para ser feliz debería poder comer melocotones de Calanda todo el año”.</p>
+
 <p>Of course, you can mix as much aliases as you like.</p>
 
-<h2 id="extra-properties">Extending the test units (new in 1.1.x)</h2>
+<h2 id="extra-properties">Extending the test cases (new in 1.2)</h2>
 
-<p>Properties in the configuration object (other than setup/teardown/before/after) are copied to each <code>Test.Unit</code> inside the context—that is, are accesible through <code>this</code> inside the <code>should</code> callbacks.</p>
+<p>Properties in the configuration object (other than setup/teardown/before/after) are copied to each <code>Test.Unit.Testcase</code> inside the context—that is, are accesible through <code>this</code> inside the <code>should</code> callbacks.</p>
 
 <% 
 code = <<-EOD
@@ -198,6 +219,46 @@ context("A 'should' execution", {
 EOD
 %>
 <%= highlight(code, 'javascript') %>
+
+<h2 id="unifying-test-runners">Unifying test runners (new in 1.2)</h2>
+
+<p>By default, each root contexts creates a new <code>Test.Unit.Runner</code> instance, so if you're not using different loggers, headers may report wrong results. And, if you are using the rake tasks provided with <strong>newjs</strong> or <strong>rails</strong>, only the results of one of the contexts would get logged.</p>
+
+<p>Not a problem? Well... in addition, you can't load tests from multiple files! Isn't that a problem?</p>
+
+<p>jShoulda provides the method <code>unifyRunners</code>. It saves the world.</p>
+
+<p>There are three ways to use the method:</p>
+
+<% 
+code = <<-EOD
+// with no arguments
+// every next root context inherits the runner
+// from the previous (if any) root context
+jShoulda
+  .unifyRunners();
+
+
+// with option arguments
+// every next root context uses a new
+// runner created from the options
+jShoulda
+  .unifyRunners({testLog: 'testlog2'});
+
+// if you've created a testRunner through the
+// traditional syntax, you can reuse it
+var runner = new Test.Unit.Runner({
+  testDummy : function() {
+    this.assert(true);
+  }
+});
+jShoulda
+  .unifyRunners(runners);
+EOD
+%>
+<%= highlight(code, 'javascript') %>
+
+
 
 
 <h2>Questions?</h2>

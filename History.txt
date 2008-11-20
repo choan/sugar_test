@@ -1,8 +1,8 @@
-== 1.1.x Unknown
+== 1.2 2008-11-20
 
 * By default, each root context creates a new Test.Unit.Runner instance, so if tests are loaded from multiple files (or the same file includes multiple root contexts), and logged to the same table, header will show incorrect data. (And worst, only one of the results would get logged by the rake task.)
 
-  Now, you can use `jShoulda.unifyRunners()` to get all your tests pushed to the same runner. In addition, if you have already written tests through the "traditional" syntax, you can pash your test runner, which will be reused.
+  Now, you can use `jShoulda.unifyRunners()` to get all your tests pushed to the same runner. In addition, if you have already written tests through the "traditional" syntax, you can pass your test runner, which will be reused.
   
 
 
