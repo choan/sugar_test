@@ -16,7 +16,7 @@
   <div id="header">
     <h1>JavaScript unit test file</h1>
     <p>
-      This file tests contexts without configuration object.
+      This file tests runner reuse through <code>jShoulda.unifyRunner()</code>.
     </p>
   </div>
 
@@ -30,27 +30,38 @@
 <script type="text/javascript">
 // <![CDATA[
 
-context("A jShoulda context",
-  context('without configuration object',
-    should("run without a configuration object", function() {
-      this.assert(true);
-    })
-  ),
-  context("with a configuration object", {
-    setup : function() {
-      this.foo = 1;
-    }
-    },
-    should("run its setup function", function() {
-      this.assertEqual(1, this.foo);
-    })
-  )
-)({testLog: "testlog"});
-  // For each root context instance, specify the element id where results will be
-  // published; e.g. <div id="testlog"/> above.
-  // That is, you can have multiple root contexts on this page, just
-  // create more <div id="testlog2"></div> etc, and pass the element id to the hash above:
-  // e.g. {testLog: "testlog2"}
+
+new Test.Unit.Runner({
+  setup: function() { with(this) {
+    var runner = context("A context",
+      should("run tests", function() {
+      }),
+      context("which is an inner context",
+        should("run tests too", function() {
+        })
+      )
+    )({testLog: 'unexistant'}); // WHY is this neeeded?
+    runner.runTests = function() {};
+    this.runner = runner;
+  }},
+    
+  // number of tests
+  testNumberOfTests : function() {
+    this.assertEqual(2, this.runner.tests.length);
+  },
+  
+  // test names
+  testTestNames: function() { 
+    this.assertEqual('A context should run tests', this.runner.tests[0].name);    
+    this.assertEqual('A context which is an inner context should run tests too', this.runner.tests[1].name);    
+  }
+
+  
+    
+}, {testLog: "testlog"});
+
+
+
 // ]]>
 </script>
 </body>

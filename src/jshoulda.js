@@ -50,6 +50,7 @@ var jShoulda = function() {
         // as its first argument
         var prefix = outerName;
         var is_root = !!(outerName == undefined || typeof outerName == 'object');
+        // debugger;
         if (is_root) {
           tr = (tr && unique) ? tr : new Test.Unit.Runner({}, outerName || {});
           prefix = '';
@@ -58,7 +59,7 @@ var jShoulda = function() {
         // configuration object
         beforeQueue = before ? before.push(obj.before) && before : [obj.before];
         afterQueue = after ? after.push(obj.after) && after : [obj.after];
-        runQueue(queue, [prefix, cName].join(' '), beforeQueue, afterQueue, merge(extensions, ext));
+        runQueue(queue, [prefix, cName].join(' ').replace(/^\s+/, ''), beforeQueue, afterQueue, merge(extensions, ext));
         if (is_root) {
           return tr;
         }

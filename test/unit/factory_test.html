@@ -33,7 +33,7 @@
 function getPreviousTestWording(tableIndex) {
   tableIndex = tableIndex || 0;
   var rows = document.getElementsByTagName('table')[tableIndex].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-  return rows[rows.length - 2].getElementsByTagName('td')[0].innerHTML.replace(/^\s+|\s+$/, '').replace(/\s+/, ' ');
+  return rows[rows.length - 2].getElementsByTagName('td')[0].innerHTML.replace(/^\s+|\s+$/g, '').replace(/\s+/, ' ');
 }
 
 jShoulda
