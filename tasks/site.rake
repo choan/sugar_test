@@ -12,7 +12,7 @@ namespace :site do
   desc "Compiles the nanoc site and adds the needed JS, examples and CSS files"
   task :default => [ :html, :js, :css, :example, :downloads ]
   
-  task :downloads => :'bundle:zip'
+  task :downloads => [ :'bundle:zip', :demo_download ]
 
   desc "Compiles the nanoc site"
   task :html do
@@ -49,6 +49,11 @@ namespace :site do
     else
       puts "You should create a #{file} file to be able to upload the site"
     end
+  end
+
+  task :demo_download => :demo do
+    mkdir_p "site/output/dl"
+    system "zip -r site/output/dl/jshoulda jshoulda/"
   end
 
   file 'site/output/css/unittest.css' => 'site/css/unittest.css' do
