@@ -1,3 +1,32 @@
+== 1.2.1 2009-02-24
+
+* New methods `useStyle` and `defineStyle`. Now for using the pair name "describe/it" all you have to do is
+
+		jShoulda.useStyle('describe');
+	
+	`context` and `should` methods are still exported by default. This may change soon.
+	
+	To define new styles, pass a style-name and a configuration object to `jShoulda.defineStyle`. Properties expected in the configuration are:
+	
+		* context: an array containing names and connectors for the exportable _context_ methods
+		* should: an array containing names and connectors for the exportable _should_ methods
+		* (optional) unify: unify runners when using this style
+	
+	Example:
+	
+		// defining an style (better in an external shared script)
+		jShoulda
+			.defineStyle('my_custom_style', {
+				context: [ 'some', 'A' ],
+				should: [ 'does', '', 'and', '' ],
+				unify: true
+			});
+		
+		// using it
+		jShoulda
+			.useStyle('my_custom_style');
+
+
 == 1.2 2008-11-20
 
 * By default, each root context creates a new Test.Unit.Runner instance, so if tests are loaded from multiple files (or the same file includes multiple root contexts), and logged to the same table, header will show incorrect data. (And worst, only one of the results would get logged by the rake task.)
