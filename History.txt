@@ -4,7 +4,9 @@
 
 		jShoulda.useStyle('describe');
 	
-	`context` and `should` methods are still exported by default. This may change soon.
+	Predefined styles are 'describe' for "describe/it" pair and 'context' or 'should' for the "context/should" pair.
+	
+	`context` and `should` methods are still exported by default. This may change in next releases.
 	
 	To define new styles, pass a style-name and a configuration object to `jShoulda.defineStyle`. Properties expected in the configuration are:
 	
