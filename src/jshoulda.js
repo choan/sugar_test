@@ -74,7 +74,7 @@ function runQueue(queue) {
 }
 
 
-function jShoulda(opts) {
+function root(opts) {
   
   opts = opts || {};
   var runnerOpts = {};
@@ -94,7 +94,7 @@ function jShoulda(opts) {
 };
 
 
-merge(jShoulda, {
+merge(root, {
   unifyRunners : function(b) {
     if (b === false) unify = false;
     else unify = true;
@@ -116,12 +116,12 @@ merge(jShoulda, {
   }
 });
 
-jShoulda
+root
   .setContextAlias('describe')
   .setUnitAlias('it')
   .setContextAlias('context')
   .setUnitAlias('should', '%context should %example');
 
-return jShoulda;
+return root;
 
 }();
