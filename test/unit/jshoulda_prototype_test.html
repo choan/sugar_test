@@ -16,71 +16,78 @@
 <div id="content">
 
   <div id="header">
-    <h1>JavaScript unit test file</h1>
+    <h1>jShoulda on Prototype-UnitTest</h1>
     <p>
-      This file tests <strong>jshoulda.js</strong>.
+      This file tests <strong>jshoulda</strong> on Prototype-UnitTest.
     </p>
   </div>
 
   <!-- Log output (one per Runner, via {testLog: "testlog"} option)-->
   <div id="testlog"></div>
-  <div id="testlog2"></div>
   
 </div>
 
 <script type="text/javascript">
 // <![CDATA[
 
-var runner = context('A test', {},
-  should('run', function() {
+jShoulda()
+  .before(function() {
+    this.extra = 'extrawadus';
+  })
+  .describe('A context')
+    .before(function() {
+      this.wadus = 'w';
+    })
+    .it('runs its root before setting', function() {
+      this.assertEqual('extrawadus', this.extra);
+    })
+    .it('runs its before setting', function() {
+      this.assertEqual('w', this.wadus);
+    })
+    .describe('when nested')
+      .it('runs its parent setup function', function() {
+        this.assertEqual('w', this.wadus);
+      })
+    .end()
+    .describe('when nested having a setup function')
+      .before(function() {
+        this.wadus += 'a';
+      })
+      .it('runs both setup functions', function() {
+        this.assertEqual('wa', this.wadus);
+      })
+      .describe('with more than a nesting level')
+        .before(function() {
+          this.wadus += 'd';
+        })
+        .it('runs setup methods in order', function() {
+          this.assertEqual('wad', this.wadus);
+        })
+      .end()
+    .end()
+    .describe('that creates a DOM node')
+      .before(function() {
+        document.body.appendChild(document.createElement('h6'));
+      })
+      .after(function() {
+        var h6 = document.getElementsByTagName('h6')[0];
+        h6.parentNode.removeChild(h6);
+      })
+      .it('yes, really, creates the node added', function() {
+        this.assertEqual(1, document.getElementsByTagName('h6').length);
+      })
+    .end()
+    .describe('whose previous context had an after function defined')
+      .it('finds that the function was invoked', function() {
+        this.assertEqual(0, document.getElementsByTagName('h6').length);
+      })
+    .end()
+  .end()
+  .it('jShoulda root is a context too', function() {
     this.assert(true);
   })
-)();
+.run();
 
-jShoulda.unifyRunners();
-
-context('A context', {
-  setup: function() {
-    this.runBefore = 1;
-  }
-  },
-  should('run its before setting', function() {
-    this.assertEqual(1, this.runBefore);
-  }),
-  context('which is an inner context', {},
-    should('run its parent setup function', function() {
-      this.assertEqual(1, this.runBefore);
-    })
-  ),
-  context('which is an inner context with a setup function', {
-    setup: function() {
-      this.runBefore += 1;
-    }
-    },
-    should('run both setup functions', function() {
-      this.assertEqual(2, this.runBefore);
-    }),
-    context('and creates a DOM node in its before function', {
-      before : function() {
-        var el = document.createElement('div');
-        el.id  = 'created-from-test';
-        document.body.appendChild(el);
-      },
-      after : function() {
-        document.body.removeChild(document.getElementById('created-from-test'));
-      }
-      },
-      should('get the node created', function() {
-        this.assert(document.getElementById('created-from-test'));
-      })
-    ),
-    context('and follows a context with an after function', {},
-      should('find a clean way', function() {
-        this.assert(!document.getElementById('created-from-test'));
-      })
-    )
-  )
-)();
 // ]]>
 </script>
 </body>
