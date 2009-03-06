@@ -15,6 +15,13 @@ function describe(name, parent) {
     end : function() {
       return parent;
     },
+    root : function() {
+      var cur = this, p;
+      while (p = cur.end()) {
+        cur = p;
+      }
+      return cur;
+    },
     before : function(fn) {
       beforeQueue.push(fn);
       return this;

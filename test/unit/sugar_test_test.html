@@ -17,7 +17,7 @@
   <div id="header">
     <h1>JavaScript unit test file</h1>
     <p>
-      This file tests <strong>jshoulda.js</strong>.
+      This file tests <strong>sugar_test.js</strong>.
     </p>
   </div>
 
@@ -80,9 +80,8 @@ SugarTest()
       .should('find that the function was invoked', function() {
         this.assertEqual(0, document.getElementsByTagName('h6').length);
       })
-    .end()
-  .end()
-  .it('jShoulda root is a context too', function() {
+  .root()
+  .it('SugarTest root is a context too', function() {
     this.assert(true);
   })
 .run();
