@@ -42,23 +42,22 @@ var runner0 = new Test.Unit.Runner({
   
 });
 
-jShoulda.unifyRunners(runner0);
+var jsh = jShoulda({ runner: runner0 });
 
-runner1 = context("An initial root context", {},
-  should("create a runner", function() {
+runner1 = jsh.describe("An initial root context")
+  .it("creates a runner", function() {
     this.assert(runner1 instanceof Test.Unit.Runner);
     this.assertEqual(runner0, runner1);
   })
-)();
+.end().run().runner;
 
+jShoulda.unifyRunners();
 
-
-runner2 = context("A second root context, when using unifyRunners", {},
-  should("reuse the runner", function() {
+runner2 = jShoulda().describe("A second root context, when using unifyRunners")
+  .it("reuses the runner", function() {
     this.assert(runner2 instanceof Test.Unit.Runner);
     this.assertEqual(runner1, runner2);
-  })
-)();
+  }).end().run().runner;
 
 
 
