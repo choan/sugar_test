@@ -36,12 +36,12 @@ function getPreviousTestWording(tableIndex) {
   return rows[rows.length - 2].getElementsByTagName('td')[0].innerHTML.replace(/^\s+|\s+$/g, '').replace(/\s+/, ' ');
 }
 
-jShoulda
+SugarTest
   .setContextAlias('un', 'Un %context')
   .setContextAlias('para', '%parent para %context')
-  .setUnitAlias('deberia', '%context debería %example')
+  .setUnitAlias('deberia', '%context debería %example');
 
-jShoulda()
+SugarTest()
   .un("Choan")
     .para("ser feliz")
       .deberia("poder comer melocotones de Calanda todo el año", function() {

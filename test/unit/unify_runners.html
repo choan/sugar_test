@@ -42,7 +42,7 @@ var runner0 = new Test.Unit.Runner({
   
 });
 
-var jsh = jShoulda({ runner: runner0 });
+var jsh = SugarTest({ runner: runner0 });
 
 runner1 = jsh.describe("An initial root context")
   .it("creates a runner", function() {
@@ -51,9 +51,9 @@ runner1 = jsh.describe("An initial root context")
   })
 .end().run().runner;
 
-jShoulda.unifyRunners();
+SugarTest.unifyRunners();
 
-runner2 = jShoulda().describe("A second root context, when using unifyRunners")
+runner2 = SugarTest().describe("A second root context, when using unifyRunners")
   .it("reuses the runner", function() {
     this.assert(runner2 instanceof Test.Unit.Runner);
     this.assertEqual(runner1, runner2);

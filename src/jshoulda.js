@@ -1,4 +1,4 @@
-var jShoulda = function() {
+var SugarTest = function() {
 
 var tr, unify = true;
 
