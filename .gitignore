@@ -1,6 +1,5 @@
 .DS_Store
-dist/jshoulda.js
-dist/jshoulda*x.js
+dist
 config/site.yaml
 site/output
 .hg*
