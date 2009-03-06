@@ -31,9 +31,15 @@
 // <![CDATA[
 
 jShoulda()
+  .before(function() {
+    this.extra = 'extrawadus';
+  })
   .describe('A context')
     .before(function() {
       this.wadus = 'w';
+    })
+    .it('runs its root before setting', function() {
+      this.assertEqual('extrawadus', this.extra);
     })
     .it('runs its before setting', function() {
       this.assertEqual('w', this.wadus);
@@ -77,6 +83,9 @@ jShoulda()
       })
     .end()
   .end()
+  .it('jShoulda root is a context too', function() {
+    this.assert(true);
+  })
 .run();
 
 // ]]>

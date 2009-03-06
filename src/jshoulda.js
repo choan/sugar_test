@@ -1,5 +1,8 @@
-var jShoulda = function() {
-  var tr = new Test.Unit.Runner({}), children = [], ready = false;
+var jShoulda = function(opts) {
+  
+  opts = opts || {};
+  
+  var tr = opts.runner || new Test.Unit.Runner({});
   
   function describe(name, parent) {
     name = name || '';
@@ -35,7 +38,7 @@ var jShoulda = function() {
     };
   };
   
-  var it = function(name, fn) {
+  function it(name, fn) {
     return {
       _setup : function(prefix, before, after) {
         tr.tests.push(new Test.Unit.Testcase([prefix, name].join(' '), fn, before, after));
@@ -54,7 +57,6 @@ var jShoulda = function() {
   
   function merge(sub, sup) {
     for (var i in sup) {
-      if (i.search(/^(before|after|setup|teardown)$/) != -1) continue;
       if (sup.hasOwnProperty(i)) {
         sub[i] = sup[i];
       }
@@ -71,21 +73,11 @@ var jShoulda = function() {
     }
   }
 
-  return {
-    describe : function(name) {
-      var d  = describe(name, this);
-      children.push(d);
-      return d;
-    },
+  return merge(describe(''), {
     run : function() {
-      if (!ready) runQueue(children);
+      this._setup();
       return this;
     },
-    setup : function() {
-      runQueue(children);
-      ready = true;
-      return this;
-    }
-  };
-
+    runner : tr
+  });
 };
