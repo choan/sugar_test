@@ -12,11 +12,12 @@ require 'rake/packagetask'
 
 $:.unshift File.dirname(__FILE__) + "/lib"
 
-APP_VERSION  = '1.2.1'
-APP_NAME     = 'jshoulda'
+APP_VERSION  = '0.1'
+APP_NAME     = 'SugarTest'
 RUBYFORGE_PROJECT = APP_NAME
-APP_TEMPLATE = "#{APP_NAME}.js.erb"
-APP_FILE_NAME= "#{APP_NAME}.js"
+APP_FILE_BASE_NAME = 'sugar_test'
+APP_TEMPLATE = "#{APP_FILE_BASE_NAME}.js.erb"
+APP_FILE_NAME= "#{APP_FILE_BASE_NAME}.js"
 
 APP_ROOT     = File.expand_path(File.dirname(__FILE__))
 APP_SRC_DIR  = File.join(APP_ROOT, 'src')
@@ -27,7 +28,7 @@ APP_PKG_DIR  = File.join(APP_ROOT, 'pkg')
 unless ENV['rakefile_just_config']
   
   
-CLEAN.include [ "#{APP_DIST_DIR}/#{APP_NAME}.js", "#{APP_DIST_DIR}/#{APP_NAME}-#{APP_VERSION}.js" ]
+CLEAN.include [ "#{APP_DIST_DIR}/#{APP_FILE_BASE_NAME}.js", "#{APP_DIST_DIR}/#{APP_FILE_BASE_NAME}-#{APP_VERSION}.js" ]
 
 task :default => [:dist, :package, :clean_package_source]
 
@@ -44,11 +45,11 @@ task :dist do
     end
   end
   Dir.chdir(APP_DIST_DIR) do
-    FileUtils.copy_file APP_FILE_NAME, "#{APP_NAME}-#{APP_VERSION}.js"
+    FileUtils.copy_file APP_FILE_NAME, "#{APP_FILE_BASE_NAME}-#{APP_VERSION}.js"
   end
 end
 
-Rake::PackageTask.new(APP_NAME, APP_VERSION) do |package|
+Rake::PackageTask.new(APP_FILE_BASE_NAME, APP_VERSION) do |package|
   package.need_tar_gz = true
   package.package_dir = APP_PKG_DIR
   package.package_files.include(
