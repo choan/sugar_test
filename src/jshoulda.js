@@ -1,14 +1,14 @@
 var jShoulda = function() {
 
-var tr, unify = false;
+var tr, unify = true;
 
 function describe(name, parent) {
   name = name || '';
   var children = [];
   var beforeQueue = [], afterQueue = [];
   
-  return {
-    it : function(name, fn) {
+  return merge(new Describe(), {
+    _it : function(name, fn) {
       children.push(it(name, fn));
       return this;
     },
@@ -23,7 +23,7 @@ function describe(name, parent) {
       afterQueue.unshift(fn);
       return this;
     },
-    describe : function(name) {
+    _describe : function(name) {
       var d = describe(name, this);
       children.push(d);
       return d;
@@ -31,18 +31,20 @@ function describe(name, parent) {
     _setup : function(prefix, before, after) {
       if (before) beforeQueue.unshift(before);
       if (after) afterQueue.push(after);
-      runQueue(children, [prefix || '' , name].join(' '), makeBatch(beforeQueue), makeBatch(afterQueue));
+      runQueue(children, name.replace('%parent', prefix || ''), makeBatch(beforeQueue), makeBatch(afterQueue));
     }
-  };
+  });
 };
+
+function Describe() {};
 
 function it(name, fn) {
   return {
     _setup : function(prefix, before, after) {
-      tr.tests.push(new Test.Unit.Testcase([prefix, name].join(' '), fn, before, after));
+      tr.tests.push(new Test.Unit.Testcase(name.replace('%context', prefix), fn, before, after));
     }
   };
-};
+}
 
 function makeBatch(fn_a) {
   var copy = fn_a.slice(0);
@@ -75,9 +77,11 @@ function runQueue(queue) {
 function jShoulda(opts) {
   
   opts = opts || {};
+  var runnerOpts = {};
+  if (opts.testLog) runnerOpts.testLog = opts.testLog;
   
   if (!(tr && unify)) {
-    tr = opts.runner || new Test.Unit.Runner({});
+    tr = opts.runner || new Test.Unit.Runner(runnerOpts);
   }  
 
   return merge(describe(''), {
@@ -89,9 +93,34 @@ function jShoulda(opts) {
   });
 };
 
-jShoulda.unifyRunners = function() {
-  unify = true;
-};
+
+merge(jShoulda, {
+  unifyRunners : function(b) {
+    if (b === false) unify = false;
+    else unify = true;
+    return this;
+  },
+  setContextAlias : function(name, template) {
+    template = template || '%parent %context';
+    Describe.prototype[name] = function(name) {
+      return this._describe(template.replace('%context', name));
+    };
+    return this;
+  },
+  setUnitAlias : function(name, template) {
+    template = template || '%context %example';
+    Describe.prototype[name] = function(name, fn) {
+      return this._it(template.replace('%example', name), fn);
+    };
+    return this;
+  }
+});
+
+jShoulda
+  .setContextAlias('describe')
+  .setUnitAlias('it')
+  .setContextAlias('context')
+  .setUnitAlias('should', '%context should %example');
 
 return jShoulda;
 
