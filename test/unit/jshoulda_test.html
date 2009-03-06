@@ -34,7 +34,7 @@ jShoulda()
   .before(function() {
     this.extra = 'extrawadus';
   })
-  .describe('A context')
+  .context('A context')
     .before(function() {
       this.wadus = 'w';
     })
@@ -78,7 +78,7 @@ jShoulda()
       })
     .end()
     .describe('whose previous context had an after function defined')
-      .it('finds that the function was invoked', function() {
+      .should('find that the function was invoked', function() {
         this.assertEqual(0, document.getElementsByTagName('h6').length);
       })
     .end()
