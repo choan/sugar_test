@@ -37,43 +37,23 @@ function getPreviousTestWording(tableIndex) {
 }
 
 jShoulda
-  .setShouldAlias('shoulda', 'ya shoulda yay')
-  .setContextAlias('describe')
-  .setShouldAlias('it', '')
-  .setShouldAlias('must');
+  .setContextAlias('un', 'Un %context')
+  .setContextAlias('para', '%parent para %context')
+  .setUnitAlias('deberia', '%context debería %example')
 
-describe("jShoulda", {},
-  should("expose a setShouldAlias", function() {
-    this.assert(typeof jShoulda.setShouldAlias == 'function');
-  }),
-  shoulda("accept weird connectors", function() {
-    this.assert(true);
-  }),
-  must('use weird wording in the previous test', function() {
-    this.assertEqual('jShoulda ya shoulda yay accept weird connectors', getPreviousTestWording());
-  }),
-  it('really can say what you want', function() {
-    this.assertEqual('jShoulda must use weird wording in the previous test', getPreviousTestWording());
-  })
-)({testLog: "testlog"});
-
-
-jShoulda
-  .setContextAlias('un', 'Un')
-  .setContextAlias('para', 'para')
-  .setShouldAlias('deberia', 'debería')
-  .unifyRunners();
-
-un("Choan",
-  para("ser feliz",
-    deberia("poder comer melocotones de Calanda todo el año", function() {
-      this.assertEqual('yum', 'yum');
+jShoulda()
+  .un("Choan")
+    .para("ser feliz")
+      .deberia("poder comer melocotones de Calanda todo el año", function() {
+        this.assertEqual('yum', 'yum');
+      })
+    .end()
+    .deberia("sentirse feliz de su trabajo en jShoulda", function() {
+      this.assertEqual('Un Choan para ser feliz debería poder comer melocotones de Calanda todo el año', getPreviousTestWording());
     })
-  ),
-  deberia("sentirse feliz de su trabajo en jShoulda", function() {
-    this.assertEqual('Un Choan para ser feliz debería poder comer melocotones de Calanda todo el año', getPreviousTestWording());
-  })
-)();
+  .end()
+.run();
+
 
 
 // ]]>
