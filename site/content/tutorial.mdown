@@ -1,0 +1,28 @@
+title: SugarTest Tutorial
+lang: en
+---
+
+**SugarTest** makes it easy to write elegant and understandable JavaScript tests. Its API is inspired by both RSpec and Shoulda. It works as a DSL running on top of JsUnitTest.
+
+It's sweet.
+
+## Get started
+
+Best way to get started is to <a href="dl/sugar_test-<%= @version %>.zip">download our sample package</a>, which includes SugarTest, JsUnitTest and a sample test.
+
+### Files you need
+
+Create an HTML document which references both <code>jsunittest.js</code> and <code>sugar_test.js</code>. Include a <code>div</code> element with <code>id</code> <var>testlog</var>, then your testing code. <a href="sample/minimal.html">Run it</a>, enjoy.  
+
+  
+  , just as the <a href="http://www.thoughtbot.com/projects/shoulda" title="thoughtbot: Shoulda testing plugin">Shoulda</a> testing plugin it's inspired on, <q>makes it easy to write elegant, understandable, and maintainable tests.</q> JavaScript.</p>
+
+
+<h2>A minimal test document</h2>
+
+<p>You need the following files to use jShoulda:</p>
+
+<ul>
+  <li><a href="http://jsunittest.com/dist/jsunittest.js">jsunittest.js</a>, from the <a href="http://jsunittest.com/">JsUnitTest</a> project. If you're using <a href="http://www.prototypejs.org/" title="Prototype JavaScript framework: Easy Ajax and DOM manipulation for dynamic web applications">prototype</a>, you may use <a href="http://github.com/sstephenson/prototype/tree/master%2Ftest%2Flib%2Fassets%2Funittest.js?raw=true">unittest.js</a> instead.</li>
+  <li><a href="/js/jshoulda.js">jshoulda.js</a>, from the <a href="/">jShoulda</a> project.</li>
+</ul>
