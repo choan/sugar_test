@@ -70,7 +70,7 @@ namespace :site do
       end
       mdown = stream
       page = OpenStruct.new(attrs)
-      mdown = Erubis::Eruby.new(mdown).evaluate(:page => page)
+      mdown = Erubis::Eruby.new(mdown).evaluate(:page => page, :version => APP_VERSION)
       page.content = RDiscount.new(mdown).to_html
       File.open(out_file, 'w+') { |o| o.puts tpl.evaluate(:page => page) }
     end
@@ -91,7 +91,7 @@ namespace :site do
 
   task :demo_download => :demo do
     mkdir_p "site/output/dl"
-    system "zip -r site/output/dl/#{APP_FILE_BASE_NAME}-#{APP_VERSION} sample"
+    system "zip -r site/output/dl/#{APP_FILE_BASE_NAME}-#{APP_VERSION}.zip sample"
   end
 
 end

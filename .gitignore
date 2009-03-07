@@ -4,4 +4,4 @@ config/site.yaml
 site/output
 .hg*
 site/tasks/upload.rake
-jshoulda/assets
+sample/assets
