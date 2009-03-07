@@ -29,7 +29,7 @@
 <script type="text/javascript">
 // <![CDATA[
 
-SugarTest()
+var t = SugarTest()
   .before(function() {
     this.extra = 'extrawadus';
   })
@@ -89,6 +89,19 @@ SugarTest()
   .root()
   .it('SugarTest root is a context too', function() {
     this.assert(true);
+  })
+.run();
+
+SugarTest('SugarTest root context')
+  .before(function() {
+    SugarTest.unifyRunners(false);
+    this.testableRunner = SugarTest('SugarTest', { testLog : 'x' })
+      .it('can be named', function() {
+        this.assert(true);
+      }).run().runner;
+  })
+  .it('can be named', function() {
+    this.assertEqual('SugarTest can be named', this.testableRunner.tests[0].name);
   })
 .run();
 

@@ -40,6 +40,7 @@ function describe(name, parent) {
       if (before) beforeQueue.unshift(before);
       if (after) afterQueue.push(after);
       runQueue(children, name.replace('%parent', prefix || ''), makeBatch(beforeQueue), makeBatch(afterQueue));
+      return this;
     }
   });
 };
@@ -82,17 +83,20 @@ function runQueue(queue) {
 }
 
 
-function root(opts) {
+function root(name, opts) {
+  name = typeof arguments[0] == 'string' ? name : '';
+  var check = arguments[arguments.length - 1];
+  if (check && typeof check == 'object') opts = check;
+  else opts = {};
   
-  opts = opts || {};
   var runnerOpts = {};
   if (opts.testLog) runnerOpts.testLog = opts.testLog;
   
-  if (!(tr && unify)) {
-    tr = opts.runner || new Test.Unit.Runner(runnerOpts);
+  if (!tr || !unify) {
+    tr = opts.runner || new Test.Unit.Runner({}, runnerOpts);
   }  
 
-  return merge(describe(''), {
+  return merge(describe(name), {
     run : function() {
       this._setup();
       return this;
