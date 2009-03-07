@@ -1,0 +1,64 @@
+title: SugarTest - Makes JavaScript testing sweet
+lang: en
+---
+SugarTest is a wrapper for [JsUnitTest](http://github.com/drnic/jsunittest/) with a simple but feature rich syntax.
+
+Features:
+
+* simple, chainable syntax
+* setup and teardown routines
+* nested contexts
+* easy aliasing, use your own style
+* no dependencies
+* makes you fat
+
+## Example test
+
+    SugarTest()
+      .describe('A context')
+        .before(function() {
+          this.something = 1;
+        })
+        .it('runs its setup function', function() {
+          this.assertEqual(1, this.something);
+        })
+        .describe('which is an inner context')
+          .before(function() {
+            this.something += 1;
+          })
+          .it('runs both setup functions', function() {
+            this.assertEqual(2, this.something);
+          })
+        .end()
+      .end()
+    .run();
+
+
+## Live result
+
+<div id="testlog"><p>Tests results will be displayed here.</p></div>
+
+<script type="text/javascript" charset="utf-8">
+SugarTest()
+  .describe('A context')
+    .before(function() {
+      this.something = 1;
+    })
+    .it('runs its setup function', function() {
+      this.assertEqual(1, this.something);
+    })
+    .describe('which is an inner context')
+      .before(function() {
+        this.something += 1;
+      })
+      .it('runs both setup functions', function() {
+        this.assertEqual(2, this.something);
+      })
+    .end()
+  .end()
+.run();
+</script>
+
+<p class="download"><a href="dl/sugar_test.zip">Download SugarTest</a></p>
+
+SugarTest has been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>.
