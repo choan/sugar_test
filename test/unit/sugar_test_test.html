@@ -62,6 +62,12 @@ SugarTest()
         .it('runs setup methods in order', function() {
           this.assertEqual('wad', this.wadus);
         })
+        .describe('with the before function passed as its second parameter', function() {
+          this.wadus += 'u';
+        })
+          .it('runs its setup method too', function() {
+            this.assertEqual('wadu', this.wadus);
+          })
       .end()
     .end()
     .describe('that creates a DOM node')

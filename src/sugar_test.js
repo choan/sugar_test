@@ -30,8 +30,9 @@ function describe(name, parent) {
       afterQueue.unshift(fn);
       return this;
     },
-    _describe : function(name) {
+    _describe : function(name, fn) {
       var d = describe(name, this);
+      if (fn) d.before(fn);
       children.push(d);
       return d;
     },
@@ -109,8 +110,8 @@ merge(root, {
   },
   setContextAlias : function(name, template) {
     template = template || '%parent %context';
-    Describe.prototype[name] = function(name) {
-      return this._describe(template.replace('%context', name));
+    Describe.prototype[name] = function(name, fn) {
+      return this._describe(template.replace('%context', name), fn);
     };
     return this;
   },
