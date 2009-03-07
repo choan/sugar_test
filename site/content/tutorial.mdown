@@ -2,7 +2,7 @@ title: SugarTest Tutorial
 lang: en
 ---
 
-**SugarTest** makes it easy to write elegant and understandable JavaScript tests. Its API is inspired by both RSpec and Shoulda. It works as a DSL running on top of JsUnitTest.
+**SugarTest** makes it easy to write elegant and understandable JavaScript tests. Its API is inspired by both RSpec, Shoulda and jQuery. It works as a DSL running on top of JsUnitTest.
 
 It's sweet.
 
@@ -10,19 +10,207 @@ It's sweet.
 
 Best way to get started is to <a href="dl/sugar_test-<%= @version %>.zip">download our sample package</a>, which includes SugarTest, JsUnitTest and a sample test.
 
-### Files you need
+## A minimal test document
 
-Create an HTML document which references both <code>jsunittest.js</code> and <code>sugar_test.js</code>. Include a <code>div</code> element with <code>id</code> <var>testlog</var>, then your testing code. <a href="sample/minimal.html">Run it</a>, enjoy.  
-
-  
-  , just as the <a href="http://www.thoughtbot.com/projects/shoulda" title="thoughtbot: Shoulda testing plugin">Shoulda</a> testing plugin it's inspired on, <q>makes it easy to write elegant, understandable, and maintainable tests.</q> JavaScript.</p>
+Create an HTML document which references both <code>jsunittest.js</code> and <code>sugar_test.js</code>. Include a <code>div</code> element with <code>id</code> <var>testlog</var>, then your testing code. <!-- <a href="sample/TODO.html">Run it</a>, enjoy.  --> 
 
 
-<h2>A minimal test document</h2>
+TODO include example
 
-<p>You need the following files to use jShoulda:</p>
+<!-- <%#= example('minimal.html', false) %> -->
 
-<ul>
-  <li><a href="http://jsunittest.com/dist/jsunittest.js">jsunittest.js</a>, from the <a href="http://jsunittest.com/">JsUnitTest</a> project. If you're using <a href="http://www.prototypejs.org/" title="Prototype JavaScript framework: Easy Ajax and DOM manipulation for dynamic web applications">prototype</a>, you may use <a href="http://github.com/sstephenson/prototype/tree/master%2Ftest%2Flib%2Fassets%2Funittest.js?raw=true">unittest.js</a> instead.</li>
-  <li><a href="/js/jshoulda.js">jshoulda.js</a>, from the <a href="/">jShoulda</a> project.</li>
-</ul>
+
+## The SugarTest API
+
+SugarTest handles two concepts: contexts and units. Contexts define scenarios for testing and can be nested. Units define the actual test units. The API offers two styles:
+
+* RSpec like, contexts are created with the `describe` method; units are created with the `it` method.
+* Shoulda like, contexts are created with the `context` method, units are created with the `should` method.
+
+You can mix both styles if you want, the only difference between them is the resulting test unit name.
+
+### Creating the test runner
+
+Invoke `SugarTest`, then `run` its return value:
+
+    SugarTest().run();
+
+
+### Contexts and units
+
+A context object is returned when invoking `describe` or `context`. You can call `it` or `should` on it to define test units. By invoking `end` you get its parent context. By calling `describe` you create a child context.
+
+Calls to unit methods (`it`, `should`) must pass a name and a callback as arguments. Assertions are run inside the callback, where <code>this</code> points to a <code>Test.Unit</code> instance. These methods return the context they are invoked on.
+
+This code will create a unit test named "SugarTest makes javascript testing sweet".
+
+    SugarTest() // create a root context
+      .describe('SugarTest') // start a new context
+        .it('makes javascript testing sweet', function() { // define the unit test
+          this.assert(true); // assertions come from JsUnitTest
+        })
+      .end() // end the top context and get its parent
+    .run(); // add the defined tests to the test runner
+
+Using the Shoulda style is just the same, but in this case the unit test would be named "SugarTest should make javascript testing sweet".
+
+    SugarTest() // create a root context
+      .context('SugarTest') // start a new context
+        .should('make javascript testing sweet', function() { // define the unit test
+          this.assert(true); // assertions come from JsUnitTest
+        })
+      .end() // end the top context and get its parent
+    .run(); // add the defined tests to the test runner
+
+
+### Setting up, tearing down
+
+You can use `before` and `after` on any context (including the root one) to define set up and tear down routines for each of its test units.
+
+    SugarTest()
+      .before(function() {
+        // `this` points to the test unit object
+        this.wadus = 'wadus';
+      })
+      .after(function() {
+        // clean after yourself
+      })
+      .describe('Setup routines')
+        .it('are run before each test unit', function() {
+          this.assertEqual('wadus', this.wadus);
+        })
+      .end()
+    .run();
+
+The `this` object is brand new for each test unit so you don't need to clean up `this`'s properties.
+
+### Nested contexts
+
+When nesting contexts, set up and tear down routines are run in order (outside-inside for `before`, inside-outside for `after`).
+
+    SugarTest()
+      .describe('A context')
+        .before(function() {
+          this.wadus = 'wadus';
+        })
+        .it('runs its set up routines', function() {
+          this.assertEqual('wadus', this.wadus);
+        })
+        .describe('when nested')
+          .before(function() {
+            this.wadus = this.wadus.toUpperCase();
+          })
+          .it('runs the chain of set up routines', function() {
+            this.assertEqual('WADUS', this.wadus);
+          })
+        .end()
+      .end()
+    .run();
+
+You can call `before` and `after` as many times as you want in each context.
+
+Alternatively, you can pass a function as the second argument to a context and get it added to the set up routines. **Warning: ** This feature may be removed before reaching 1.0.
+
+    SugarTest()
+      .describe('A context', function() {
+        this.wadus = 'wadus';
+      })
+        .it('runs its setup routines', function() {
+          this.assertEqual('wadus', this.wadus);
+        })
+      .end()
+    .run();
+
+### Back to the root
+
+You can skip multiple calls to `end` by invoking `root`, which allways return the root context.
+
+    SugarTest()
+      .describe(...)
+        .it(...)
+        .describe(...)
+          .it(...)
+            .describe(...)
+              .it(...)
+      .root()
+    .run();
+
+### The root context
+
+You can pass a name to `SugarTest` to use it as the basename. It includes context methods, you can call `it`, `before`, etc. on it.
+
+    SugarTest('SugarTest')
+      .it('could not be simpler', function() {
+        this.assert(true);
+      })
+    .run();
+
+Remember: test units are not actually created untill you invoke `run` on the root context.
+
+
+### Aliasing
+
+It's easy (and recommended) to define aliases for contexts an units methods. This way you can write and name your test in a quite natural language:
+
+    SugarTest
+      .setContextAlias('scenario', 'Scenario: %context')
+      .setContextAlias('feature', '%prefix, feature: %context.')
+      .setContextAlias('when', '%prefix When %context')
+      .setUnitAlias('then', '%context then %example');
+
+    SugarTest()
+      .scenario('scenario name')
+        .feature('feature name')
+          .when('I do something')
+            .then('something should happen', function() {
+              this.assert(true);
+            })
+      .root()
+    .run();
+
+This would create a test case called "Scenario: scenario name, feature: feature name. When I do something something should happen".
+
+**Warning:** Aliasing methods may be reworked before reaching 1.0 version.
+
+### The test runner
+
+Every unit created with SugarTest is added, by default, to a unique TestRunner. This way you can reuse the same runner for tests coming from different files. If you preferred using different runners, you'd have to call `unifyRunners` with a `false` argument.
+
+    SugarTest.unifyRunners(false);
+
+You can pass options to the TestRunner by using an object as the last argument to `SugarTest`.
+
+    SugarTest({ testLog: 'testlog-div-id' });
+
+
+## Assertions
+
+Assertions come from the JsUnitTest library. Almost every assertion accepts three arguments: the expected value, the actual one and an optional message. An intentionally incomplete list of possible assertions follows:
+
+* assert
+* assertEqual
+* assertNotEqual
+* assertEnumEqual
+* assertEnumNotEqual
+* assertHashEqual
+* assertHashNotEqual
+* assertIdentical
+* assertNotIdentical
+* assertNull
+* assertNotNull
+* assertUndefined
+* assertNotUndefined
+
+
+## Questions?
+
+Feel free to ask on the <a href="http://groups.google.com/group/sugartest">SugarTest Google Group</a>.
+
+
+## About SugarTest
+
+SugarTest is a spin off of <a href="http://jshoulda.scriptia.net">jShoulda</a> featuring a revised syntax/API.
+
+It's been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>.
+
+
