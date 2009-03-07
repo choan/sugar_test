@@ -1,6 +1,7 @@
 require "erubis"
 require "ostruct"
 require "rdiscount"
+require "cgi"
 
 CLEAN.include ['site/output']
 

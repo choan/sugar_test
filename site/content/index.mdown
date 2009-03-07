@@ -1,5 +1,24 @@
 title: SugarTest - Makes JavaScript testing sweet
 lang: en
+test : |
+  SugarTest()
+    .describe('A context')
+      .before(function() {
+        this.something = 1;
+      })
+      .it('runs its setup function', function() {
+        this.assertEqual(1, this.something);
+      })
+      .describe('which is an inner context')
+        .before(function() {
+          this.something += 1;
+        })
+        .it('runs both setup functions', function() {
+          this.assertEqual(2, this.something);
+        })
+      .end()
+    .end()
+  .run();
 ---
 SugarTest is a wrapper for [JsUnitTest](http://github.com/drnic/jsunittest/) with a simple but feature rich syntax.
 
@@ -14,24 +33,9 @@ Features:
 
 ## Example test
 
-    SugarTest()
-      .describe('A context')
-        .before(function() {
-          this.something = 1;
-        })
-        .it('runs its setup function', function() {
-          this.assertEqual(1, this.something);
-        })
-        .describe('which is an inner context')
-          .before(function() {
-            this.something += 1;
-          })
-          .it('runs both setup functions', function() {
-            this.assertEqual(2, this.something);
-          })
-        .end()
-      .end()
-    .run();
+<pre>
+  <code><%= CGI.escapeHTML @page.test.chomp %></code>
+</pre>
 
 
 ## Live result
@@ -39,24 +43,9 @@ Features:
 <div id="testlog"><p>Tests results will be displayed here.</p></div>
 
 <script type="text/javascript" charset="utf-8">
-SugarTest()
-  .describe('A context')
-    .before(function() {
-      this.something = 1;
-    })
-    .it('runs its setup function', function() {
-      this.assertEqual(1, this.something);
-    })
-    .describe('which is an inner context')
-      .before(function() {
-        this.something += 1;
-      })
-      .it('runs both setup functions', function() {
-        this.assertEqual(2, this.something);
-      })
-    .end()
-  .end()
-.run();
+// <![CDATA[
+<%= @page.test %>
+// ]]>
 </script>
 
 <p class="download"><a href="dl/sugar_test-<%= @version %>.zip">Download SugarTest</a></p>
