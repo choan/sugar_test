@@ -34,7 +34,7 @@ Features:
 ## Example test
 
 <pre>
-  <code><%= CGI.escapeHTML @page.test.chomp %></code>
+<code><%= CGI.escapeHTML @page.test.chomp %></code>
 </pre>
 
 
