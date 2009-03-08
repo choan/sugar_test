@@ -31,6 +31,8 @@ Features:
 * no dependencies
 * makes you fat
 
+Check the <a href="tutorial.html">SugarTest tutorial</a> for usage information.
+
 ## Example test
 
 <pre>
@@ -51,3 +53,4 @@ Features:
 <p class="download"><a href="dl/sugar_test-<%= @version %>.zip">Download SugarTest</a></p>
 
 SugarTest has been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>. SugarTest is a fork of <a href="http://jshoulda.scriptia.net">jShoulda</a> featuring a revised syntax while maintaining features.
+

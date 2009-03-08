@@ -65,7 +65,7 @@ Using the Shoulda style is just the same, but in this case the unit test would b
 
 ### Setting up, tearing down
 
-You can use `before` and `after` on any context (including the root one) to define set up and tear down routines for each of its test units. The callback receives a store object which later is passed to the test methods. `this` points to the test unit object.
+You can use `before` and `after` on any context (including the root one) to define set up and tear down routines for each of its test units. The callback receives a store object which is also passed to test methods. `this` points to the test unit object.
 
     SugarTest()
       .before(function(data) {
@@ -240,4 +240,4 @@ SugarTest is a spin off of <a href="http://jshoulda.scriptia.net">jShoulda</a> f
 
 It's been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>.
 
-
+<a href="./">SugarTest homepage</a>.
