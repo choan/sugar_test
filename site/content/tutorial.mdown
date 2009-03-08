@@ -128,23 +128,23 @@ Alternatively, you can pass a function as the second argument to a context and g
 
 You may want to use set up routines for sibling contexts that only differ in configuration data. Do it this way:
 
-SugarTest('A something')
-  .before(function(data) {
-    this.something = new Something(data.someOptions);
-  })
-  .describe('with default configuration')
-    .data({ someOptions : {} });
-    it('behaves like a wadus', function() {
-      // assertions
-    })
-  .end()
-  .describe('with custom configuration')
-    .data({ someOptions : { hey: 'you' } })
-    .it('behaves like a hey-you-wadus', function() {
-      // assertions
-    })
-  .end()
-.run();
+    SugarTest('A something')
+      .before(function(data) {
+        this.something = new Something(data.someOptions);
+      })
+      .describe('with default configuration')
+        .data({ someOptions : {} });
+        it('behaves like a wadus', function() {
+          // assertions
+        })
+      .end()
+      .describe('with custom configuration')
+        .data({ someOptions : { hey: 'you' } })
+        .it('behaves like a hey-you-wadus', function() {
+          // assertions
+        })
+      .end()
+    .run();
 
 Note that `data` is constructed by merging the data objects of each parent context before running any set up routine.
 
