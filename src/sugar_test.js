@@ -5,7 +5,7 @@ var tr, unify = true;
 function describe(name, parent) {
   name = name || '';
   var children = [];
-  var beforeQueue = [], afterQueue = [];
+  var beforeQueue = [], afterQueue = [], data = {};
   
   return merge(new Describe(), {
     _it : function(name, fn) {
@@ -30,16 +30,21 @@ function describe(name, parent) {
       afterQueue.unshift(fn);
       return this;
     },
+    data : function(obj) {
+      merge(data, obj);
+      return this;
+    },
     _describe : function(name, fn) {
       var d = describe(name, this);
       if (fn) d.before(fn);
       children.push(d);
       return d;
     },
-    _setup : function(prefix, before, after) {
+    _setup : function(prefix, before, after, parentData) {
+      var mergedData = merge(merge({}, parentData), data);
       if (before) beforeQueue.unshift(before);
       if (after) afterQueue.push(after);
-      runQueue(children, name.replace('%parent', prefix || ''), makeBatch(beforeQueue), makeBatch(afterQueue));
+      runQueue(children, name.replace('%parent', prefix || ''), makeBatch(beforeQueue, mergedData), makeBatch(afterQueue, mergedData), mergedData);
       return this;
     }
   });
@@ -49,17 +54,28 @@ function Describe() {};
 
 function it(name, fn) {
   return {
-    _setup : function(prefix, before, after) {
-      tr.tests.push(new Test.Unit.Testcase(name.replace('%context', prefix), fn, before, after));
+    _setup : function(prefix, before, after, data) {
+      tr.tests.push(
+        new Test.Unit.Testcase(name.replace('%context', prefix), 
+        function() {
+          fn.call(this, data)
+        },
+        function() {
+          before.call(this, data);
+        },
+        function() {
+          after.call(this, data);
+        }
+      ));
     }
   };
 }
 
 function makeBatch(fn_a) {
   var copy = fn_a.slice(0);
-  return function() {
+  return function(data) {
     for (var i = 0; i < copy.length; i += 1) {
-      copy[i].call(this);
+      copy[i].call(this, data);
     }
   };
 }

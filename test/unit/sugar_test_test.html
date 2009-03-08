@@ -105,6 +105,37 @@ SugarTest('SugarTest root context')
   })
 .run();
 
+SugarTest('data method')
+  .before(function(data) {
+    data.x = data.bar;
+    data.y = data.foo;
+  })
+  .describe()
+    .data({ bar: 'bar', foo: 'foo' })
+    .it('allows passing data', function(data) {
+      this.assertEqual('bar', data.x);
+      this.assertEqual('foo', data.y);
+    })
+  .end()
+  .describe()
+    .data({ bar: 'wadus' })
+    .it('sets data before running set up routines', function(data) {
+      this.assertEqual('wadus', data.x);
+      this.assertEqual(undefined, data.y);
+    })
+    .describe()
+      .before(function(data) {
+      })
+      .data({ foo: 'far', ie : 'sucks' })
+      .it('merges parent and nested data before running setup routines', function(data) {
+        this.assertEqual('far', data.y);
+        this.assertEqual('wadus', data.x);
+        this.assertEqual('sucks', data.ie);
+      })
+    .end()
+  .end()
+.run();
+
 // ]]>
 </script>
 </body>
