@@ -1,3 +1,9 @@
+== 0.2 2009-03-08
+
+* Added `data` method
+* Site + tutorial
+
+
 == 0.0.1 2009-03-07
 
 * Initial release

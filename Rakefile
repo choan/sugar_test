@@ -12,7 +12,7 @@ require 'rake/packagetask'
 
 $:.unshift File.dirname(__FILE__) + "/lib"
 
-APP_VERSION  = '0.1'
+APP_VERSION  = '0.2'
 APP_NAME     = 'SugarTest'
 RUBYFORGE_PROJECT = APP_NAME
 APP_FILE_BASE_NAME = 'sugar_test'
