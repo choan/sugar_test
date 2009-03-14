@@ -71,9 +71,10 @@ namespace :site do
       end
       mdown = stream
       page = OpenStruct.new(attrs)
-      mdown = Erubis::Eruby.new(mdown).evaluate(:page => page, :version => APP_VERSION)
+      data = { :page =>page, :version => APP_VERSION, :analytics => analytics }
+      mdown = Erubis::Eruby.new(mdown).evaluate(data)
       page.content = RDiscount.new(mdown).to_html
-      File.open(out_file, 'w+') { |o| o.puts tpl.evaluate(:page => page) }
+      File.open(out_file, 'w+') { |o| o.puts tpl.evaluate(data) }
     end
     task :html => out_file
   end
@@ -93,6 +94,20 @@ namespace :site do
   task :demo_download => :demo do
     mkdir_p "site/output/dl"
     system "zip -r site/output/dl/#{APP_FILE_BASE_NAME}-#{APP_VERSION}.zip sample"
+  end
+  
+  def analytics
+    %[
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-306448-12");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+]
   end
 
 end
