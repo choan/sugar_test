@@ -32,6 +32,7 @@ h1 {
     background: #C4E541;
     line-height: 40px;
     overflow: hidden;
+    zoom: 1;
   }
   
   #menu li {
