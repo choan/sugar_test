@@ -1,27 +1,89 @@
 body {
-  width: 40em;
-  margin: 0 auto;
-  background: #fff0ef;
-  color: #200;
-  font: 1em/1.5 lucida grande, sans-serif;
+  width: 951px;
+  margin: 20px auto;
+  background: #fff;
+  color: #333;
+  font: 14px/1.5 helvetica, arial, sans-serif;
 }
 
+h1 {
+  float: left;
+  margin: 0 9px 18px 0;
+}
+  
+  h1 img {
+    vertical-align: bottom;
+  }
+
+#menu {
+  float: left;
+  width: 651px;
+  padding: 25px 0;
+  margin: 0 0 18px;
+}
+
+  #menu ul, #menu li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  #menu ul {
+    background: #C4E541;
+    line-height: 40px;
+    overflow: hidden;
+  }
+  
+  #menu li {
+    float: left;
+    width: 175px;
+    border-right: 1px solid #fff;
+    text-align: center;
+  }
+  
+  #menu a {
+    color: #333;
+  }
+
+.intro, .example {
+  width: 462px;
+  margin: 0 0 18px;
+  float: left;
+}
+
+.example {
+  float: right;
+}
+
+#testlog {
+/*  font-size: .92em;*/
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.28em;
+}
+
+
 pre {
-  background: #222;
-  color: #6f6;
-  padding: 1em;
+  background: #f0f0f0;
+  color: #111;
+  padding: .5em;
+  border: 1px solid #c4e541;
   overflow: auto;
 }
 
 p.download {
   text-align: center;
-  margin: 2em 0;
+  margin: 3em 0;
 }
 
 p.download a {
-  background: #eed0e0;
-  border: 2px solid #930;
+  background: #c4e541;
+  border: 2px solid #333;
+  color: #333;
   padding: 1em;
+  font-size: 1.5em;
 }
 
 a {

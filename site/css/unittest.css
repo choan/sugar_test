@@ -1,7 +1,5 @@
-#log {
-  padding-bottom: 1em;
-  border-bottom: 2px solid #000;
-  margin-bottom: 2em;
+tr {
+  line-height: 1.2;
 }
 
 .logsummary {
@@ -25,7 +23,7 @@
 }
 
 .logtable .passed {
-  background-color: #cfc;
+  background-color: #C4E541;
 }
 
 .logtable .failed, .logtable .error {

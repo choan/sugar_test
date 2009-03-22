@@ -22,7 +22,7 @@ namespace :site do
   LAYOUTS_DIR = 'site/layouts'
 
   desc "Compiles the nanoc site and adds the needed JS, examples and CSS files"
-  task :default => [ :html, :js, :css ]
+  task :default => [ :html, :js, :css, :assets ]
   
   task :downloads => [ :'bundle:zip', :demo_download ]
 
@@ -94,6 +94,10 @@ namespace :site do
   task :demo_download => :demo do
     mkdir_p "site/output/dl"
     system "zip -r site/output/dl/#{APP_FILE_BASE_NAME}-#{APP_VERSION}.zip sample"
+  end
+  
+  task :assets do
+    sh "rsync -azv site/assets/ site/output"
   end
   
   def analytics

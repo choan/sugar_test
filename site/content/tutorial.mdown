@@ -2,15 +2,17 @@ title: SugarTest Tutorial
 lang: en
 ---
 
+## SugarTest Tutorial
+
 **SugarTest** makes it easy to write elegant and understandable JavaScript tests. Its API is inspired by both RSpec, Shoulda and jQuery. It works as a DSL running on top of JsUnitTest.
 
 It's sweet.
 
-## Get started
+### Get started
 
 Best way to get started is to <a href="dl/sugar_test-<%= @version %>.zip">download our sample package</a>, which includes SugarTest, JsUnitTest and a sample test.
 
-## A minimal test document
+### A minimal test document
 
 Create an HTML document which references both <code>jsunittest.js</code> and <code>sugar_test.js</code>. Include a <code>div</code> element with <code>id</code> <var>testlog</var>, then your testing code. <!-- <a href="sample/TODO.html">Run it</a>, enjoy.  --> 
 
@@ -20,7 +22,7 @@ TODO include example
 <!-- <%#= example('minimal.html', false) %> -->
 
 
-## The SugarTest API
+### The SugarTest API
 
 SugarTest handles two concepts: contexts and units. Contexts define scenarios for testing and can be nested. Units define the actual test units. The API offers two styles:
 
@@ -29,14 +31,14 @@ SugarTest handles two concepts: contexts and units. Contexts define scenarios fo
 
 You can mix both styles if you want, the only difference between them is the resulting test unit name.
 
-### Creating the test runner
+#### Creating the test runner
 
 Invoke `SugarTest`, then `run` its return value:
 
     SugarTest().run();
 
 
-### Contexts and units
+#### Contexts and units
 
 A context object is returned when invoking `describe` or `context`. You can call `it` or `should` on it to define test units. By invoking `end` you get its parent context. By calling `describe` you create a child context.
 
@@ -63,7 +65,7 @@ Using the Shoulda style is just the same, but in this case the unit test would b
     .run(); // add the defined tests to the test runner
 
 
-### Setting up, tearing down
+#### Setting up, tearing down
 
 You can use `before` and `after` on any context (including the root one) to define set up and tear down routines for each of its test units. The callback receives a store object which is also passed to test methods. `this` points to the test unit object.
 
@@ -86,7 +88,7 @@ You can use `before` and `after` on any context (including the root one) to defi
 
 The `this` object is brand new for each test unit so you don't need to clean up `this`'s properties.
 
-### Nested contexts
+#### Nested contexts
 
 When nesting contexts, set up and tear down routines are run in order (outside-inside for `before`, inside-outside for `after`).
 
@@ -124,7 +126,7 @@ Alternatively, you can pass a function as the second argument to a context and g
     .run();
 
 
-### Context data
+#### Context data
 
 You may want to use set up routines for sibling contexts that only differ in configuration data. Do it this way:
 
@@ -148,7 +150,7 @@ You may want to use set up routines for sibling contexts that only differ in con
 
 Note that `data` is constructed by merging the data objects of each parent context before running any set up routine.
 
-### Back to the root
+#### Back to the root
 
 You can skip multiple calls to `end` by invoking `root`, which allways return the root context.
 
@@ -162,7 +164,7 @@ You can skip multiple calls to `end` by invoking `root`, which allways return th
       .root()
     .run();
 
-### The root context
+#### The root context
 
 You can pass a name to `SugarTest` to use it as the basename. It includes context methods, you can call `it`, `before`, etc. on it.
 
@@ -175,7 +177,7 @@ You can pass a name to `SugarTest` to use it as the basename. It includes contex
 Remember: test units are not actually created untill you invoke `run` on the root context.
 
 
-### Aliasing
+#### Aliasing
 
 It's easy (and recommended) to define aliases for contexts an units methods. This way you can write and name your test in a quite natural language:
 
@@ -199,7 +201,7 @@ This would create a test case called "Scenario: scenario name, feature: feature 
 
 **Warning:** Aliasing methods may be reworked before reaching 1.0 version.
 
-### The test runner
+#### The test runner
 
 Every unit created with SugarTest is added, by default, to a unique TestRunner. This way you can reuse the same runner for tests coming from different files. If you preferred using different runners, you'd have to call `unifyRunners` with a `false` argument.
 
@@ -210,7 +212,7 @@ You can pass options to the TestRunner by using an object as the last argument t
     SugarTest({ testLog: 'testlog-div-id' });
 
 
-## Assertions
+### Assertions
 
 Assertions come from the JsUnitTest library. Almost every assertion accepts three arguments: the expected value, the actual one and an optional message. An intentionally incomplete list of possible assertions follows:
 
@@ -229,12 +231,12 @@ Assertions come from the JsUnitTest library. Almost every assertion accepts thre
 * assertNotUndefined
 
 
-## Questions?
+### Questions?
 
 Feel free to ask on the <a href="http://groups.google.com/group/sugartest">SugarTest Google Group</a>.
 
 
-## About SugarTest
+### About SugarTest
 
 SugarTest is a spin off of <a href="http://jshoulda.scriptia.net">jShoulda</a> featuring a revised syntax/API.
 

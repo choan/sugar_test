@@ -3,44 +3,57 @@ lang: en
 test : |
   SugarTest()
     .describe('A context')
-      .before(function() {
-        this.something = 1;
+      .before(function(data) {
+        data.something = 1;
       })
-      .it('runs its setup function', function() {
-        this.assertEqual(1, this.something);
+      .it('runs its setup function', function(data) {
+        this.assertEqual(1, data.something);
       })
       .describe('which is an inner context')
-        .before(function() {
-          this.something += 1;
+        .before(function(data) {
+          data.something += 1;
         })
-        .it('runs both setup functions', function() {
-          this.assertEqual(2, this.something);
+        .it('runs both setup functions', function(data) {
+          this.assertEqual(2, data.something);
         })
       .end()
     .end()
   .run();
 ---
-SugarTest is a wrapper for [JsUnitTest](http://github.com/drnic/jsunittest/) with a simple but feature rich syntax.
 
-Features:
+<div class="intro">
+<strong>SugarTest</strong> makes it easy to write elegant and understandable JavaScript tests. Its API is inspired by both RSpec, Shoulda and jQuery. It works as a DSL running on top of <a href="http://github.com/drnic/jsunittest/">JsUnitTest</a>.
 
-* simple, chainable syntax
-* setup and teardown routines
-* nested contexts
-* easy aliasing, use your own style
-* no dependencies
-* makes you fat
+<p>Features:</p>
 
-Check the <a href="tutorial.html">SugarTest tutorial</a> for usage information.
+<ul>
+<li>simple, expressive syntax</li>
+<li>setup and teardown routines</li>
+<li>nested contexts</li>
+<li>easy aliasing, use your own style</li>
+<li>no dependencies</li>
+<li>makes you fat</li>
+</ul>
 
-## Example test
+<p>Check the <a href="tutorial.html">SugarTest tutorial</a> for usage information.</p>
+
+<p class="download"><a href="dl/sugar_test-<%= @version %>.zip">Download SugarTest</a></p>
+
+<p>SugarTest has been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>. SugarTest Logo designed by <a href="http://bomberstudios.com">Ale Muñoz</a>, released under a <a href="http://sam.zoy.org/wtfpl/" title="WTFPL - Do What The Fuck You Want To Public License">WTFPL License</a>. SugarTest is a fork of <a href="http://jshoulda.scriptia.net">jShoulda</a> featuring a revised syntax and new features.</p>
+
+
+</div>
+
+
+<div class="example">
+<h2>Example test</h2>
 
 <pre>
 <code><%= CGI.escapeHTML @page.test.chomp %></code>
 </pre>
 
 
-## Live result
+<h2>Live result</h2>
 
 <div id="testlog"><p>Tests results will be displayed here.</p></div>
 
@@ -50,7 +63,4 @@ Check the <a href="tutorial.html">SugarTest tutorial</a> for usage information.
 // ]]>
 </script>
 
-<p class="download"><a href="dl/sugar_test-<%= @version %>.zip">Download SugarTest</a></p>
-
-SugarTest has been created by <a href="http://choangalvez.nom.es/" hreflang="es">Choan Galvez</a> and is freely distributable under the terms of a MIT-style license. The source code resides in a <a href="http://github.com/choan/sugar_test/">Git repository at github</a>. SugarTest is a fork of <a href="http://jshoulda.scriptia.net">jShoulda</a> featuring a revised syntax while maintaining features.
-
+</div>
