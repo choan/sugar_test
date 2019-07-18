@@ -1,3 +1,7 @@
+# SugarTest is officially abandoned
+
+Years have passed and much better javascript testing options have appeared. Time to say goodbye.
+
 # SugarTest - Makes JavaScript testing sweet
 
 SugarTest is a wrapper for [JsUnitTest](http://github.com/drnic/jsunittest/) with a simple but feature rich syntax.
